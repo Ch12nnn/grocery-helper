@@ -119,6 +119,7 @@ def parse_price_xls(filepath, target_district=""):
         if not district or any(k in district for k in ['说明', '上海市', '注']):
             continue
 
+        source_label = f"{district}·{market_name}" if market_name else district
         is_supermarket = any(k in market_name for k in SUPERMARKET_KEYWORDS)
 
         for c in range(2, sheet.ncols):
@@ -126,7 +127,7 @@ def parse_price_xls(filepath, target_district=""):
             try:
                 p = float(val)
                 if p > 0:
-                    market_prices[c].append(p)
+                    market_prices[c].append((p, source_label))
                     if is_supermarket:
                         supermarket_prices[c].append(p)
                     else:
@@ -153,8 +154,13 @@ def parse_price_xls(filepath, target_district=""):
             city_avg = 0.0
 
         all_p = market_prices[col]
-        min_p = min(all_p) if all_p else city_avg
-        max_p = max(all_p) if all_p else city_avg
+        if all_p:
+            all_p_sorted = sorted(all_p, key=lambda x: x[0])
+            min_p, min_source = all_p_sorted[0]
+            max_p, max_source = all_p_sorted[-1]
+        else:
+            min_p, min_source = city_avg, "发改委综合采样"
+            max_p, max_source = city_avg, "发改委综合采样"
 
         # 线下菜市场真实零售均价
         wm_p = wet_market_prices[col]
@@ -177,7 +183,9 @@ def parse_price_xls(filepath, target_district=""):
             "market_avg": market_avg,
             "supermarket_avg": supermarket_avg,
             "min_price": min_p,
+            "min_source": min_source,
             "max_price": max_p,
+            "max_source": max_source,
             "district_avg": district_avg
         })
 

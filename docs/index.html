@@ -73,7 +73,13 @@
           <div class="bg-white rounded-2xl p-4 lg:p-5 shadow-sm border border-slate-100 space-y-3.5">
             <div class="flex items-center justify-between">
               <label class="text-xs lg:text-sm font-bold text-slate-500 uppercase tracking-wider">第一步：选择菜摊看到的菜品</label>
-              <button onclick="switchTab('favorites')" class="text-[11px] lg:text-xs text-emerald-600 font-semibold hover:underline">定制常买清单 &gt;</button>
+              <div class="flex items-center space-x-1.5">
+                <button onclick="openCustomProductModal()" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold px-2 py-1 rounded-lg border border-emerald-200 active:scale-95 transition flex items-center space-x-1 shadow-2xs">
+                  <span>➕</span>
+                  <span>自定义菜品</span>
+                </button>
+                <button onclick="switchTab('favorites')" class="text-[11px] lg:text-xs text-emerald-600 font-semibold hover:underline">常买 &gt;</button>
+              </div>
             </div>
             
             <!-- 搜索输入框 -->
@@ -84,9 +90,10 @@
             </div>
 
             <!-- 分类快速筛选胶囊 -->
-            <div class="flex space-x-1.5 overflow-x-auto no-scrollbar pb-1 text-xs lg:flex-wrap lg:gap-1.5 lg:space-x-0">
+            <div class="flex space-x-1.5 overflow-x-auto no-scrollbar pb-1 text-xs lg:flex-wrap lg:gap-1.5 lg:space-x-0" id="category-pills">
               <button onclick="filterCategory('常买')" class="cat-pill bg-emerald-600 text-white px-3 py-1 rounded-full font-medium" data-cat="常买">⭐ 我的常买</button>
-              <button onclick="filterCategory('全部')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="全部">全部(64种)</button>
+              <button onclick="filterCategory('全部')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="全部">全部</button>
+              <button onclick="filterCategory('自建')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="自建">✨ 我的自建</button>
               <button onclick="filterCategory('蔬菜')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="蔬菜">🥬 蔬菜</button>
               <button onclick="filterCategory('肉禽蛋')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="肉禽蛋">🥩 肉蛋</button>
               <button onclick="filterCategory('鱼虾')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="鱼虾">🐟 水产</button>
@@ -114,37 +121,71 @@
           <div id="calculator-box" class="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-slate-100 space-y-4">
             
             <!-- 菜品基准信息栏 -->
-            <div class="flex items-start justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-start justify-between border-b border-slate-100 pb-2.5">
               <div>
-                <div class="flex items-center space-x-2">
-                  <span id="calc-name" class="text-xl lg:text-2xl font-black text-slate-900">青菜</span>
+                <div class="flex items-center space-x-2 flex-wrap gap-1">
+                  <span id="calc-name" class="text-lg lg:text-2xl font-black text-slate-900">青菜</span>
                   <span id="calc-category" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-medium">蔬菜</span>
+                  <span id="calc-custom-badge" class="hidden text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md shadow-2xs">✨ 自建</span>
                 </div>
-                <p id="calc-spec" class="text-xs text-slate-500 mt-0.5">规格：普通一级</p>
+                <p id="calc-spec" class="text-xs text-slate-400 mt-0.5">规格：普通一级</p>
               </div>
-              <div class="text-right">
-                <span class="text-[11px] text-slate-400 block">菜市场零售均价(还价基准)</span>
-                <span id="calc-benchmark" class="text-2xl lg:text-3xl font-black text-emerald-600">4.16</span>
-                <span id="calc-unit" class="text-xs text-slate-500 font-medium">元/斤</span>
+              <div id="calc-custom-actions" class="hidden shrink-0 flex items-center space-x-1.5">
+                <button type="button" onclick="editCurrentCustomProduct()" class="text-xs text-emerald-700 hover:text-emerald-900 font-bold px-2 py-1 bg-emerald-50 hover:bg-emerald-100 rounded-lg border border-emerald-200 transition active:scale-95">编辑</button>
+                <button type="button" onclick="deleteCurrentCustomProduct()" class="text-xs text-rose-600 hover:text-rose-800 font-bold px-2 py-1 bg-rose-50 hover:bg-rose-100 rounded-lg border border-rose-200 transition active:scale-95">删除</button>
               </div>
             </div>
 
-            <!-- 价格多维参考格：商超上限 + 全市综合 + 采样区间 -->
-            <div class="grid grid-cols-3 gap-2 text-center text-xs bg-slate-50 p-3 rounded-xl border border-slate-100">
-              <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-2xs">
-                <span class="text-[10px] lg:text-[11px] text-slate-400 block">🏬 大型商超均价</span>
-                <span id="calc-supermarket" class="font-extrabold text-blue-600 text-sm lg:text-base mt-0.5 block">2.86</span>
-                <span class="text-[9px] lg:text-[10px] text-slate-400">大润发/联华等</span>
+            <!-- 价格多维参考格：从左到右展示 [最低价(数据源)] | [发改委价] | [最高价(数据来源)] -->
+            <div class="grid grid-cols-3 gap-2 text-center text-xs">
+              <!-- 1. 左栏：最低价（数据源） -->
+              <div class="bg-emerald-50/70 border border-emerald-200/90 p-2.5 rounded-2xl flex flex-col justify-between shadow-2xs">
+                <div>
+                  <div class="flex items-center justify-center space-x-1 text-emerald-800 font-bold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    <span>最低价</span>
+                  </div>
+                  <div class="mt-1">
+                    <span class="text-xs text-emerald-700 font-bold">¥</span>
+                    <span id="calc-min-price" class="text-lg lg:text-2xl font-black text-emerald-700">1.58</span>
+                  </div>
+                </div>
+                <div class="mt-1.5 pt-1.5 border-t border-emerald-200/60">
+                  <span id="calc-min-source" class="text-[10px] text-emerald-800/90 font-medium block truncate" title="浦东新区·大润发超市(三林店)">浦东·大润发</span>
+                </div>
               </div>
-              <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-2xs">
-                <span class="text-[10px] lg:text-[11px] text-slate-400 block">🏛️ 全市综合均价</span>
-                <span id="calc-city-avg" class="font-extrabold text-slate-700 text-sm lg:text-base mt-0.5 block">3.81</span>
-                <span class="text-[9px] lg:text-[10px] text-slate-400">发改委大盘价</span>
+
+              <!-- 2. 中栏：发改委价 (核心基准) -->
+              <div class="bg-white border-2 border-emerald-500 p-2.5 rounded-2xl flex flex-col justify-between shadow-xs relative">
+                <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-2xs whitespace-nowrap">官方基准</span>
+                <div class="mt-0.5">
+                  <span id="calc-benchmark-title" class="text-[11px] font-black text-slate-800">发改委价</span>
+                  <div class="mt-1">
+                    <span class="text-xs text-emerald-600 font-bold">¥</span>
+                    <span id="calc-benchmark" class="text-xl lg:text-3xl font-black text-emerald-600">4.16</span>
+                    <span id="calc-unit" class="text-[10px] text-slate-500 font-medium">元/斤</span>
+                  </div>
+                </div>
+                <div class="mt-1.5 pt-1.5 border-t border-slate-100">
+                  <span id="calc-benchmark-source" class="text-[10px] text-slate-500 font-medium block truncate">全市菜场零售均价</span>
+                </div>
               </div>
-              <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-2xs">
-                <span class="text-[10px] lg:text-[11px] text-slate-400 block">📊 采价区间</span>
-                <span id="calc-range" class="font-bold text-slate-700 text-xs lg:text-sm mt-1 block">1.6 ~ 10.0</span>
-                <span class="text-[9px] lg:text-[10px] text-slate-400">最低 ~ 最高</span>
+
+              <!-- 3. 右栏：最高价（数据来源） -->
+              <div class="bg-amber-50/70 border border-amber-200/90 p-2.5 rounded-2xl flex flex-col justify-between shadow-2xs">
+                <div>
+                  <div class="flex items-center justify-center space-x-1 text-amber-900 font-bold text-[11px]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+                    <span>最高价</span>
+                  </div>
+                  <div class="mt-1">
+                    <span class="text-xs text-amber-700 font-bold">¥</span>
+                    <span id="calc-max-price" class="text-lg lg:text-2xl font-black text-amber-800">10.00</span>
+                  </div>
+                </div>
+                <div class="mt-1.5 pt-1.5 border-t border-amber-200/60">
+                  <span id="calc-max-source" class="text-[10px] text-amber-900/90 font-medium block truncate" title="长宁区·美天虹康农贸市场">长宁·美天虹康</span>
+                </div>
               </div>
             </div>
 
@@ -326,16 +367,110 @@
     <span id="toast-msg">提示信息</span>
   </div>
 
+  <!-- 自定义添加/编辑菜品弹窗 -->
+  <div id="custom-product-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-5 lg:p-6 max-w-md w-full shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto no-scrollbar">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🥬</span>
+          <h3 id="custom-modal-title" class="text-base font-bold text-slate-800">添加自定义菜品与价格</h3>
+        </div>
+        <button onclick="closeCustomProductModal()" class="text-slate-400 hover:text-slate-600 p-1 text-lg">✕</button>
+      </div>
+
+      <input type="hidden" id="cust-edit-id" value="">
+
+      <!-- 表单字段 -->
+      <div class="space-y-3 text-xs">
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">商品名称 <span class="text-rose-500">*</span></label>
+          <input type="text" id="cust-name" placeholder="如：牛里脊、散养土鸡、黑猪五花、三文鱼" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500 font-medium">
+        </div>
+
+        <div class="grid grid-cols-2 gap-2.5">
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">所属分类 <span class="text-rose-500">*</span></label>
+            <select id="cust-category-select" onchange="onCustomCategoryChange()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs focus:outline-none focus:border-emerald-500 font-medium">
+              <option value="蔬菜">🥬 蔬菜</option>
+              <option value="肉禽蛋" selected>🥩 肉禽蛋</option>
+              <option value="鱼虾">🐟 水产鱼虾</option>
+              <option value="水果">🍎 水果</option>
+              <option value="粮油">🍚 粮油副食</option>
+              <option value="__NEW__">➕ 自定义新分类...</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 mb-1">规格备注 (选填)</label>
+            <input type="text" id="cust-spec" placeholder="如：精修现切、盒装、大果" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <!-- 自定义新分类输入框（当选__NEW__时展示） -->
+        <div id="cust-new-cat-box" class="hidden">
+          <label class="block font-bold text-slate-700 mb-1">输入新分类名称 <span class="text-rose-500">*</span></label>
+          <input type="text" id="cust-new-cat-input" placeholder="如：调味干货、熟食卤味、自制面点" class="w-full bg-slate-50 border border-emerald-300 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-500">
+        </div>
+
+        <!-- 基准参考价 -->
+        <div>
+          <label class="block font-bold text-slate-700 mb-1">发改委参考价 / 核心基准价 (元/斤) <span class="text-rose-500">*</span></label>
+          <input type="number" step="any" id="cust-benchmark" placeholder="如：48.0" class="w-full bg-emerald-50/50 border border-emerald-300 rounded-xl px-3 py-2 text-xs font-black text-emerald-800 focus:outline-none focus:border-emerald-500">
+          <span class="text-[10px] text-slate-400 mt-0.5 block">作为比价还价的标准线，例如你认为公道的正常市场零售单价。</span>
+        </div>
+
+        <!-- 最低价及数据源 -->
+        <div class="grid grid-cols-2 gap-2.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <label class="block font-bold text-emerald-800 mb-1">最低价 (元/斤)</label>
+            <input type="number" step="any" id="cust-min-price" placeholder="如：38.0" class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block font-bold text-emerald-800 mb-1">最低价数据源</label>
+            <input type="text" id="cust-min-source" placeholder="如：龙上批发 / 拼多多" class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+
+        <!-- 最高价及数据源 -->
+        <div class="grid grid-cols-2 gap-2.5 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div>
+            <label class="block font-bold text-amber-900 mb-1">最高价 (元/斤)</label>
+            <input type="number" step="any" id="cust-max-price" placeholder="如：68.0" class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:border-emerald-500">
+          </div>
+          <div>
+            <label class="block font-bold text-amber-900 mb-1">最高价数据源</label>
+            <input type="text" id="cust-max-source" placeholder="如：山姆 / 盒马鲜生" class="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 text-xs focus:outline-none focus:border-emerald-500">
+          </div>
+        </div>
+      </div>
+
+      <!-- 操作按钮 -->
+      <div class="pt-2 flex items-center space-x-2">
+        <button onclick="saveCustomProductFromModal()" class="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold rounded-xl text-xs shadow-md shadow-emerald-600/20 transition">
+          保存菜品
+        </button>
+        <button id="cust-delete-btn" onclick="deleteCurrentEditingProduct()" class="hidden px-3 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 font-bold rounded-xl text-xs transition">
+          删除
+        </button>
+        <button onclick="closeCustomProductModal()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-xs transition">
+          取消
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // 本地存储键名
     const STORAGE_KEY_DATA = 'sh_grocery_market_data_v1';
     const STORAGE_KEY_FAVS = 'sh_grocery_favs_v1';
+    const STORAGE_KEY_CUSTOM = 'sh_grocery_custom_products_v1';
 
-    let gMarketData = null;
+    let gRawMarketData = null; // 发改委原始官方数据
+    let gMarketData = null;    // 融合自建商品后的全量数据
     let gFavorites = [];
     let gCurrentProduct = null;
     let gCurrentCategory = '常买';
     let gResolvedUnitPrice = 0; // 当前计算折合后的每斤单价
+    let gCurrentEditingCustomProduct = null;
 
     window.addEventListener('DOMContentLoaded', async () => {
       loadSavedFavorites();
@@ -356,14 +491,53 @@
       }
     }
 
+    function loadCustomProducts() {
+      const saved = localStorage.getItem(STORAGE_KEY_CUSTOM);
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          return [];
+        }
+      }
+      return [];
+    }
+
+    function saveCustomProducts(list) {
+      localStorage.setItem(STORAGE_KEY_CUSTOM, JSON.stringify(list));
+      mergeAndRefreshData();
+    }
+
+    function mergeAndRefreshData() {
+      if (!gRawMarketData) return;
+      const customList = loadCustomProducts();
+      const merged = JSON.parse(JSON.stringify(gRawMarketData));
+      
+      // 将自建商品融合到全量商品列表（排在最前面，便于快速查找）
+      merged.all_products = [...customList, ...merged.all_products];
+      merged.total_count = merged.all_products.length;
+
+      // 将自建商品归入对应分类
+      customList.forEach(cp => {
+        const cat = cp.category || '其它';
+        if (!merged.categories[cat]) {
+          merged.categories[cat] = [];
+        }
+        merged.categories[cat].unshift(cp);
+      });
+
+      gMarketData = merged;
+      renderAll();
+    }
+
     async function fetchMarketData() {
       // 优先从 localStorage 载入离线缓存（应对菜场地下室无信号场景）
       const cached = localStorage.getItem(STORAGE_KEY_DATA);
       if (cached) {
         try {
-          gMarketData = JSON.parse(cached);
+          gRawMarketData = JSON.parse(cached);
           document.getElementById('status-badge').innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>离线可用</span>';
-          renderAll();
+          mergeAndRefreshData();
         } catch (e) {}
       }
 
@@ -371,14 +545,14 @@
       try {
         const resp = await fetch('./data.json?t=' + Date.now());
         if (resp.ok) {
-          gMarketData = await resp.json();
-          localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(gMarketData));
+          gRawMarketData = await resp.json();
+          localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(gRawMarketData));
           document.getElementById('status-badge').innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span><span>在线已同步</span>';
-          renderAll();
+          mergeAndRefreshData();
         }
       } catch (err) {
         console.log('Using offline cached data', err);
-        if (!gMarketData) {
+        if (!gRawMarketData) {
           showToast('无法连接网络且暂无离线缓存', '⚠️');
         }
       }
@@ -386,7 +560,8 @@
 
     function renderAll() {
       if (!gMarketData) return;
-      document.getElementById('sub-header').innerText = `采价日期: ${gMarketData.date} · 官方监测商品: ${gMarketData.all_products.length} 种`;
+      const customCount = loadCustomProducts().length;
+      document.getElementById('sub-header').innerText = `采价日期: ${gMarketData.date} · 全量监测商品: ${gMarketData.all_products.length} 种${customCount > 0 ? ` (含自建 ${customCount} 种)` : ''}`;
       document.getElementById('official-summary').innerText = gMarketData.summary || '暂无官方价格通报';
       document.getElementById('all-count-badge').innerText = `共 ${gMarketData.all_products.length} 种`;
 
@@ -395,9 +570,201 @@
       renderAllProductsTable();
 
       // 默认选中第一个
-      if (!gCurrentProduct) {
+      if (!gCurrentProduct && gMarketData.all_products.length > 0) {
         const def = gMarketData.all_products.find(p => p.name === '青菜') || gMarketData.all_products[0];
         if (def) selectProduct(def);
+      }
+    }
+
+    // ==================== 自定义菜品与价格管理 ====================
+    function openCustomProductModal(prod = null) {
+      const modal = document.getElementById('custom-product-modal');
+      const title = document.getElementById('custom-modal-title');
+      const idInput = document.getElementById('cust-edit-id');
+      const nameInput = document.getElementById('cust-name');
+      const catSelect = document.getElementById('cust-category-select');
+      const newCatBox = document.getElementById('cust-new-cat-box');
+      const newCatInput = document.getElementById('cust-new-cat-input');
+      const specInput = document.getElementById('cust-spec');
+      const benchInput = document.getElementById('cust-benchmark');
+      const minPriceInput = document.getElementById('cust-min-price');
+      const minSourceInput = document.getElementById('cust-min-source');
+      const maxPriceInput = document.getElementById('cust-max-price');
+      const maxSourceInput = document.getElementById('cust-max-source');
+      const deleteBtn = document.getElementById('cust-delete-btn');
+
+      if (prod && prod.is_custom) {
+        gCurrentEditingCustomProduct = prod;
+        title.innerText = '编辑自建菜品';
+        idInput.value = prod.id;
+        nameInput.value = prod.name || '';
+        specInput.value = prod.spec || '';
+        benchInput.value = prod.market_avg || prod.city_avg || '';
+        minPriceInput.value = (prod.min_price != null) ? prod.min_price : '';
+        minSourceInput.value = prod.min_source || '';
+        maxPriceInput.value = (prod.max_price != null) ? prod.max_price : '';
+        maxSourceInput.value = prod.max_source || '';
+        deleteBtn.classList.remove('hidden');
+
+        const knownCats = ['蔬菜', '肉禽蛋', '鱼虾', '水果', '粮油'];
+        if (knownCats.includes(prod.category)) {
+          catSelect.value = prod.category;
+          newCatBox.classList.add('hidden');
+          newCatInput.value = '';
+        } else {
+          catSelect.value = '__NEW__';
+          newCatBox.classList.remove('hidden');
+          newCatInput.value = prod.category || '';
+        }
+      } else {
+        gCurrentEditingCustomProduct = null;
+        title.innerText = '自定义添加菜品 / 录入价格';
+        idInput.value = '';
+        nameInput.value = '';
+        specInput.value = '';
+        benchInput.value = '';
+        minPriceInput.value = '';
+        minSourceInput.value = '';
+        maxPriceInput.value = '';
+        maxSourceInput.value = '';
+        catSelect.value = '肉禽蛋';
+        newCatBox.classList.add('hidden');
+        newCatInput.value = '';
+        deleteBtn.classList.add('hidden');
+      }
+
+      modal.classList.remove('hidden');
+      nameInput.focus();
+    }
+
+    function closeCustomProductModal() {
+      const modal = document.getElementById('custom-product-modal');
+      modal.classList.add('hidden');
+      gCurrentEditingCustomProduct = null;
+    }
+
+    function onCustomCategoryChange() {
+      const catSelect = document.getElementById('cust-category-select');
+      const newCatBox = document.getElementById('cust-new-cat-box');
+      const newCatInput = document.getElementById('cust-new-cat-input');
+      if (catSelect.value === '__NEW__') {
+        newCatBox.classList.remove('hidden');
+        newCatInput.focus();
+      } else {
+        newCatBox.classList.add('hidden');
+      }
+    }
+
+    function saveCustomProductFromModal() {
+      const idInput = document.getElementById('cust-edit-id');
+      const nameInput = document.getElementById('cust-name');
+      const catSelect = document.getElementById('cust-category-select');
+      const newCatInput = document.getElementById('cust-new-cat-input');
+      const specInput = document.getElementById('cust-spec');
+      const benchInput = document.getElementById('cust-benchmark');
+      const minPriceInput = document.getElementById('cust-min-price');
+      const minSourceInput = document.getElementById('cust-min-source');
+      const maxPriceInput = document.getElementById('cust-max-price');
+      const maxSourceInput = document.getElementById('cust-max-source');
+
+      const name = nameInput.value.trim();
+      if (!name) {
+        showToast('请输入商品名称', '⚠️');
+        nameInput.focus();
+        return;
+      }
+
+      let category = catSelect.value;
+      if (category === '__NEW__') {
+        category = newCatInput.value.trim();
+        if (!category) {
+          showToast('请输入新分类名称', '⚠️');
+          newCatInput.focus();
+          return;
+        }
+      }
+
+      const benchmark = parseFloat(benchInput.value);
+      if (isNaN(benchmark) || benchmark <= 0) {
+        showToast('请输入有效的发改委参考价或基准价', '⚠️');
+        benchInput.focus();
+        return;
+      }
+
+      const spec = specInput.value.trim() || '自建规格';
+      const minP = parseFloat(minPriceInput.value);
+      const minPrice = (!isNaN(minP) && minP > 0) ? minP : benchmark;
+      const minSource = minSourceInput.value.trim() || '自选渠道最低';
+
+      const maxP = parseFloat(maxPriceInput.value);
+      const maxPrice = (!isNaN(maxP) && maxP > 0) ? maxP : benchmark;
+      const maxSource = maxSourceInput.value.trim() || '自选渠道最高';
+
+      const customList = loadCustomProducts();
+      const id = idInput.value || ('custom_' + Date.now());
+
+      const newProd = {
+        id: id,
+        is_custom: true,
+        name: name,
+        spec: spec,
+        display_name: `${name}(${spec})`,
+        category: category,
+        unit: '元/500克',
+        city_avg: benchmark,
+        market_avg: benchmark,
+        supermarket_avg: maxPrice,
+        min_price: minPrice,
+        min_source: minSource,
+        max_price: maxPrice,
+        max_source: maxSource
+      };
+
+      const existingIdx = customList.findIndex(p => p.id === id);
+      if (existingIdx >= 0) {
+        customList[existingIdx] = newProd;
+      } else {
+        customList.unshift(newProd);
+      }
+
+      saveCustomProducts(customList);
+      closeCustomProductModal();
+      showToast(`已保存「${name}」！`, '✨');
+
+      // 自动切到自建商品并选择
+      filterCategory('自建');
+      selectProduct(newProd);
+    }
+
+    function editCurrentCustomProduct() {
+      if (gCurrentProduct && gCurrentProduct.is_custom) {
+        openCustomProductModal(gCurrentProduct);
+      }
+    }
+
+    function deleteCurrentCustomProduct() {
+      if (!gCurrentProduct || !gCurrentProduct.is_custom) return;
+      if (!confirm(`确定要删除自建菜品「${gCurrentProduct.name}」吗？`)) return;
+
+      const customList = loadCustomProducts().filter(p => p.id !== gCurrentProduct.id);
+      saveCustomProducts(customList);
+      showToast(`已删除「${gCurrentProduct.name}」`, '🗑️');
+
+      gCurrentProduct = null;
+      renderAll();
+    }
+
+    function deleteCurrentEditingProduct() {
+      if (gCurrentEditingCustomProduct && gCurrentEditingCustomProduct.id) {
+        if (!confirm(`确定要删除自建菜品「${gCurrentEditingCustomProduct.name}」吗？`)) return;
+        const customList = loadCustomProducts().filter(p => p.id !== gCurrentEditingCustomProduct.id);
+        saveCustomProducts(customList);
+        closeCustomProductModal();
+        showToast(`已删除「${gCurrentEditingCustomProduct.name}」`, '🗑️');
+        if (gCurrentProduct && gCurrentProduct.id === gCurrentEditingCustomProduct.id) {
+          gCurrentProduct = null;
+          renderAll();
+        }
       }
     }
 
@@ -543,6 +910,8 @@
         let matchCat = true;
         if (gCurrentCategory === '常买') {
           matchCat = gFavorites.some(f => p.display_name.includes(f) || f.includes(p.name) || getFriendlyName(p).includes(f));
+        } else if (gCurrentCategory === '自建') {
+          matchCat = !!p.is_custom;
         } else if (gCurrentCategory !== '全部') {
           matchCat = p.category === gCurrentCategory;
         }
@@ -550,12 +919,12 @@
       });
 
       if (filtered.length === 0) {
-        container.innerHTML = '<span class="text-xs text-slate-400 py-2">未找到匹配菜品（支持搜索五花肉、排骨、番茄、包菜等通俗叫法）</span>';
+        container.innerHTML = `<span class="text-xs text-slate-400 py-2">${gCurrentCategory === '自建' ? '暂无自建菜品，点击右上角「➕ 自定义菜品」即可添加' : '未找到匹配菜品（支持搜索五花肉、排骨、番茄、包菜等通俗叫法）'}</span>`;
         return;
       }
 
       filtered.forEach(p => {
-        const isSelected = gCurrentProduct && gCurrentProduct.display_name === p.display_name;
+        const isSelected = gCurrentProduct && (gCurrentProduct.id ? gCurrentProduct.id === p.id : gCurrentProduct.display_name === p.display_name);
         const chip = document.createElement('button');
         chip.className = `text-xs px-2.5 py-1.5 rounded-xl border transition flex items-center space-x-1 ${
           isSelected 
@@ -563,7 +932,9 @@
             : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
         }`;
         const title = getFriendlyName(p);
-        chip.innerHTML = `<span>${title}</span><span class="opacity-75 text-[10px]">¥${p.city_avg.toFixed(1)}</span>`;
+        const customIcon = p.is_custom ? '<span class="text-amber-400">✨</span>' : '';
+        const price = (p.market_avg && p.market_avg > 0) ? p.market_avg : p.city_avg;
+        chip.innerHTML = `${customIcon}<span>${title}</span><span class="opacity-75 text-[10px]">¥${price.toFixed(1)}</span>`;
         chip.onclick = () => selectProduct(p);
         container.appendChild(chip);
       });
@@ -580,19 +951,48 @@
       document.getElementById('calc-name').innerText = (friendlyTitle !== prod.name) ? `${friendlyTitle} · ${prod.name}` : prod.name;
       document.getElementById('calc-category').innerText = prod.category;
       document.getElementById('calc-spec').innerText = `规格：${prod.spec || '普通标准'}`;
-      document.getElementById('calc-benchmark').innerText = marketBenchmark.toFixed(2);
-      document.getElementById('calc-unit').innerText = prod.unit.replace('元/500克', '元/斤');
 
-      // 填入商超、全市大盘与区间
-      const smPriceEl = document.getElementById('calc-supermarket');
-      if (prod.supermarket_avg && prod.supermarket_avg > 0) {
-        smPriceEl.innerText = `${prod.supermarket_avg.toFixed(2)}元`;
+      // 自定义菜品标识与编辑按钮
+      const customBadge = document.getElementById('calc-custom-badge');
+      const customActions = document.getElementById('calc-custom-actions');
+      if (prod.is_custom) {
+        if (customBadge) customBadge.classList.remove('hidden');
+        if (customActions) customActions.classList.remove('hidden');
       } else {
-        smPriceEl.innerText = '-';
+        if (customBadge) customBadge.classList.add('hidden');
+        if (customActions) customActions.classList.add('hidden');
       }
 
-      document.getElementById('calc-city-avg').innerText = `${prod.city_avg.toFixed(2)}元`;
-      document.getElementById('calc-range').innerText = `${prod.min_price.toFixed(1)} ~ ${prod.max_price.toFixed(1)}`;
+      // 1. 最低价与数据源
+      const minPriceEl = document.getElementById('calc-min-price');
+      const minSourceEl = document.getElementById('calc-min-source');
+      if (minPriceEl) minPriceEl.innerText = (prod.min_price != null) ? prod.min_price.toFixed(2) : '-';
+      if (minSourceEl) {
+        const src = prod.min_source || '采样最低';
+        minSourceEl.innerText = src;
+        minSourceEl.title = src;
+      }
+
+      // 2. 发改委价 / 核心基准价
+      const benchEl = document.getElementById('calc-benchmark');
+      const benchTitleEl = document.getElementById('calc-benchmark-title');
+      const benchSourceEl = document.getElementById('calc-benchmark-source');
+      if (benchEl) benchEl.innerText = marketBenchmark.toFixed(2);
+      if (benchTitleEl) benchTitleEl.innerText = prod.is_custom ? '自定基准' : '发改委价';
+      if (benchSourceEl) benchSourceEl.innerText = prod.is_custom ? '个人预设公道线' : (prod.market_avg > 0 ? '全市菜场零售均价' : '全市零售综合均价');
+
+      // 3. 最高价与数据来源
+      const maxPriceEl = document.getElementById('calc-max-price');
+      const maxSourceEl = document.getElementById('calc-max-source');
+      if (maxPriceEl) maxPriceEl.innerText = (prod.max_price != null) ? prod.max_price.toFixed(2) : '-';
+      if (maxSourceEl) {
+        const src = prod.max_source || '采样最高';
+        maxSourceEl.innerText = src;
+        maxSourceEl.title = src;
+      }
+
+      const unitEl = document.getElementById('calc-unit');
+      if (unitEl) unitEl.innerText = (prod.unit || '元/500克').replace('元/500克', '元/斤');
 
       onPriceBarChanged();
     }
@@ -804,9 +1204,18 @@
         pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-rose-200 text-rose-800';
       }
 
+      // 叠加最低/最高价采样比对
+      if (gCurrentProduct.min_price && gCurrentProduct.min_price > 0 && userPrice <= gCurrentProduct.min_price * 1.05) {
+        const srcLabel = gCurrentProduct.min_source ? `（${gCurrentProduct.min_source}：¥${gCurrentProduct.min_price.toFixed(2)}/斤）` : '';
+        advice += `<br><span class="text-emerald-700 font-semibold">🏆 全市低位：</span>当前价格已逼近全市采样最低价${srcLabel}，可以说是地板价了！`;
+      } else if (gCurrentProduct.max_price && gCurrentProduct.max_price > 0 && userPrice >= gCurrentProduct.max_price * 0.98) {
+        const srcLabel = gCurrentProduct.max_source ? `（${gCurrentProduct.max_source}：¥${gCurrentProduct.max_price.toFixed(2)}/斤）` : '';
+        advice += `<br><span class="text-rose-700 font-semibold">🚩 触顶警戒：</span>当前价格已逼近全市采样最高价${srcLabel}，要价非常昂贵！`;
+      }
+
       // 叠加商超上限对比提示
       const smAvg = gCurrentProduct.supermarket_avg;
-      if (smAvg && smAvg > 0) {
+      if (!gCurrentProduct.is_custom && smAvg && smAvg > 0) {
         if (userPrice > smAvg * 1.1) {
           const smDiffPct = ((userPrice - smAvg) / smAvg * 100.0).toFixed(0);
           advice += `<br><span class="text-blue-700 font-semibold">🏬 商超比对：</span>当前要价比大润发/世纪联华等商超均价（¥${smAvg.toFixed(2)}/斤）还贵了 <span class="underline font-bold">+${smDiffPct}%</span>，去超市买可能更划算！`;
@@ -960,25 +1369,39 @@
       const tbody = document.getElementById('all-products-tbody');
       tbody.innerHTML = '';
 
-      gMarketData.all_products.forEach(p => {
+      gMarketData.all_products.forEach((p, idx) => {
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 transition';
         const marketAvg = p.market_avg && p.market_avg > 0 ? `¥${p.market_avg.toFixed(2)}` : `¥${p.city_avg.toFixed(2)}`;
         const superAvg = p.supermarket_avg && p.supermarket_avg > 0 ? `¥${p.supermarket_avg.toFixed(2)}` : '-';
         const friendly = getFriendlyName(p);
+        const customBadge = p.is_custom ? '<span class="text-[10px] font-bold text-amber-800 bg-amber-100 px-1.5 py-0.5 rounded mr-1">✨自建</span>' : '';
         const aliasTag = (friendly && friendly !== p.name) ? `<span class="text-[10px] font-normal text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded ml-1">${friendly}</span>` : '';
+        
+        const minTip = p.min_source ? `最低: ¥${p.min_price.toFixed(2)} (${p.min_source})` : `最低: ¥${p.min_price.toFixed(1)}`;
+        const maxTip = p.max_source ? `最高: ¥${p.max_price.toFixed(2)} (${p.max_source})` : `最高: ¥${p.max_price.toFixed(1)}`;
+        const rangeTitle = `${minTip} &#10;${maxTip}`;
+
         tr.innerHTML = `
           <td class="py-3 px-1 font-medium text-slate-500">${p.category}</td>
-          <td class="py-3 px-1 font-bold text-slate-800">${p.display_name}${aliasTag}</td>
+          <td class="py-3 px-1 font-bold text-slate-800">${customBadge}${p.display_name}${aliasTag}</td>
           <td class="py-3 px-1 text-right font-black text-emerald-600">${marketAvg}</td>
           <td class="py-3 px-1 text-right font-extrabold text-blue-600">${superAvg}</td>
-          <td class="py-3 px-1 text-right text-slate-500">${p.min_price.toFixed(1)} ~ ${p.max_price.toFixed(1)}</td>
+          <td class="py-3 px-1 text-right text-slate-500 cursor-help" title="${rangeTitle}">${p.min_price.toFixed(1)} ~ ${p.max_price.toFixed(1)}</td>
           <td class="py-3 px-1 text-center">
-            <button class="text-xs text-emerald-600 hover:text-emerald-800 font-bold px-2.5 py-1 bg-emerald-50 rounded-lg active:scale-95 transition" onclick='quickCompareFromTable(${JSON.stringify(p)})'>比价</button>
+            <button class="text-xs text-emerald-600 hover:text-emerald-800 font-bold px-2.5 py-1 bg-emerald-50 rounded-lg active:scale-95 transition" onclick="quickCompareByIndex(${idx})">比价</button>
           </td>
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    function quickCompareByIndex(idx) {
+      if (!gMarketData || !gMarketData.all_products[idx]) return;
+      const prod = gMarketData.all_products[idx];
+      switchTab('compare');
+      selectProduct(prod);
+      window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function quickCompareFromTable(prod) {

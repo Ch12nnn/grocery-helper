@@ -2,7 +2,7 @@
   "title": "上海市主要主副食品品种价格信息表(2026年09月11日)",
   "date": "2026年09月11日",
   "summary": "据监测，2026年09月11日本市主要蔬菜品种平均零售价环比上一工作日11涨18跌5平。其中，青菜和鸡毛菜平均零售价3.81元/500克和4.33元/500克，环比分别上涨1.1%和下跌-2.5%。\n今日，主要肉禽蛋品种平均零售价环比上一工作日3涨3跌3平。其中，猪精瘦肉价格17.54元/500克，鸡蛋价格6.10元/500克，环比分别持平和上涨0.3%。",
-  "updated_at": "2026-09-13 15:46:57",
+  "updated_at": "2026-09-13 18:53:19",
   "total_count": 64,
   "categories": {
     "粮食": [
@@ -16,7 +16,9 @@
         "market_avg": 2.8994999999999993,
         "supermarket_avg": 2.5422222222222226,
         "min_price": 2.28,
+        "min_source": "浦东新区·大润发超市(三林店)",
         "max_price": 3.8,
+        "max_source": "杨浦区·乐家福菜场",
         "district_avg": 0.0
       },
       {
@@ -29,7 +31,9 @@
         "market_avg": 55.14871794871795,
         "supermarket_avg": 61.8,
         "min_price": 40.5,
+        "min_source": "浦东新区·南季生鲜超市",
         "max_price": 89.9,
+        "max_source": "浦东新区·世纪联华超市(南汇店)",
         "district_avg": 0.0
       },
       {
@@ -42,7 +46,9 @@
         "market_avg": 3.3661538461538463,
         "supermarket_avg": 3.4539999999999997,
         "min_price": 2.5,
+        "min_source": "浦东新区·航盛农贸市场",
         "max_price": 5.0,
+        "max_source": "黄浦区·江南菜场",
         "district_avg": 0.0
       },
       {
@@ -55,7 +61,9 @@
         "market_avg": 4.0394736842105265,
         "supermarket_avg": 4.62,
         "min_price": 3.0,
+        "min_source": "普陀区·合阳农贸市场",
         "max_price": 6.3,
+        "max_source": "虹口区·世纪联华超市（虹口店）",
         "district_avg": 0.0
       }
     ],
@@ -70,7 +78,9 @@
         "market_avg": 149.53846153846155,
         "supermarket_avg": 157.67222222222225,
         "min_price": 65.0,
+        "min_source": "长宁区·美天虹康农贸市场",
         "max_price": 184.0,
+        "max_source": "长宁区·新长宁我家菜市场",
         "district_avg": 0.0
       },
       {
@@ -83,7 +93,9 @@
         "market_avg": 53.02580645161291,
         "supermarket_avg": 53.92,
         "min_price": 45.0,
+        "min_source": "浦东新区·张桥农贸市场",
         "max_price": 69.0,
+        "max_source": "普陀区·芝川农贸市场",
         "district_avg": 0.0
       },
       {
@@ -96,7 +108,9 @@
         "market_avg": 54.06666666666667,
         "supermarket_avg": 65.9,
         "min_price": 48.0,
+        "min_source": "闵行区·七宝九星农副产品市场",
         "max_price": 70.0,
+        "max_source": "普陀区·芝川农贸市场",
         "district_avg": 0.0
       },
       {
@@ -109,7 +123,9 @@
         "market_avg": 60.25,
         "supermarket_avg": 69.47999999999999,
         "min_price": 50.0,
+        "min_source": "浦东新区·张桥农贸市场",
         "max_price": 79.9,
+        "max_source": "普陀区·世纪联华（桃浦店）",
         "district_avg": 0.0
       },
       {
@@ -122,7 +138,9 @@
         "market_avg": 58.839999999999996,
         "supermarket_avg": 55.02857142857142,
         "min_price": 48.0,
+        "min_source": "黄浦区·江南菜场",
         "max_price": 70.0,
+        "max_source": "普陀区·芝川农贸市场",
         "district_avg": 0.0
       }
     ],
@@ -137,7 +155,9 @@
         "market_avg": 17.8775,
         "supermarket_avg": 16.59,
         "min_price": 11.38,
+        "min_source": "金山区·欧尚超市(石化店)",
         "max_price": 28.8,
+        "max_source": "普陀区·农工商超市118店",
         "district_avg": 0.0
       },
       {
@@ -150,7 +170,9 @@
         "market_avg": 19.34390243902439,
         "supermarket_avg": 17.540000000000003,
         "min_price": 9.8,
+        "min_source": "静安区·大润发超市(闸北店)",
         "max_price": 43.8,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -163,7 +185,9 @@
         "market_avg": 14.856097560975611,
         "supermarket_avg": 12.547499999999998,
         "min_price": 6.88,
+        "min_source": "浦东新区·大润发超市(三林店)",
         "max_price": 28.8,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -176,7 +200,9 @@
         "market_avg": 29.146153846153847,
         "supermarket_avg": 30.194666666666663,
         "min_price": 19.0,
+        "min_source": "浦东新区·航盛农贸市场",
         "max_price": 50.0,
+        "max_source": "普陀区·农工商超市118店",
         "district_avg": 0.0
       },
       {
@@ -189,7 +215,9 @@
         "market_avg": 50.79230769230769,
         "supermarket_avg": 51.36363636363635,
         "min_price": 36.0,
+        "min_source": "浦东新区·世纪联华超市(南汇店)",
         "max_price": 69.9,
+        "max_source": "闵行区·大润发超市(春申店)",
         "district_avg": 0.0
       },
       {
@@ -202,7 +230,9 @@
         "market_avg": 42.353846153846156,
         "supermarket_avg": 45.69833333333333,
         "min_price": 30.0,
+        "min_source": "浦东新区·航盛农贸市场",
         "max_price": 59.8,
+        "max_source": "金山区·欧尚超市(石化店)",
         "district_avg": 0.0
       },
       {
@@ -215,7 +245,9 @@
         "market_avg": 37.49310344827586,
         "supermarket_avg": 41.125,
         "min_price": 25.0,
+        "min_source": "闵行区·陇南农贸市场",
         "max_price": 49.9,
+        "max_source": "金山区·欧尚超市(石化店)",
         "district_avg": 0.0
       },
       {
@@ -228,7 +260,9 @@
         "market_avg": 13.585714285714285,
         "supermarket_avg": 14.573333333333336,
         "min_price": 9.0,
+        "min_source": "闵行区·新安农贸市场",
         "max_price": 21.0,
+        "max_source": "宝山区·绿叶市集团结店",
         "district_avg": 0.0
       },
       {
@@ -241,7 +275,9 @@
         "market_avg": 6.1057500000000005,
         "supermarket_avg": 6.05,
         "min_price": 3.98,
+        "min_source": "松江区·大润发超市(荣乐中路店)",
         "max_price": 7.3,
+        "max_source": "闵行区·麦德龙闵行店",
         "district_avg": 0.0
       }
     ],
@@ -256,7 +292,9 @@
         "market_avg": 30.77948717948718,
         "supermarket_avg": 25.849999999999998,
         "min_price": 18.0,
+        "min_source": "浦东新区·高东集贸市场",
         "max_price": 48.0,
+        "max_source": "长宁区·美天程桥农贸市场",
         "district_avg": 0.0
       },
       {
@@ -269,7 +307,9 @@
         "market_avg": 31.06,
         "supermarket_avg": 28.020000000000003,
         "min_price": 15.0,
+        "min_source": "松江区·玉昆生鲜集市",
         "max_price": 43.0,
+        "max_source": "闵行区·新安农贸市场",
         "district_avg": 0.0
       },
       {
@@ -282,7 +322,9 @@
         "market_avg": 11.847222222222221,
         "supermarket_avg": 13.48,
         "min_price": 10.0,
+        "min_source": "静安区·武定农贸市场",
         "max_price": 19.0,
+        "max_source": "虹口区·密云农贸市场",
         "district_avg": 0.0
       },
       {
@@ -295,7 +337,9 @@
         "market_avg": 12.53076923076923,
         "supermarket_avg": 14.006666666666668,
         "min_price": 10.0,
+        "min_source": "宝山区·绿叶市集团结店",
         "max_price": 19.8,
+        "max_source": "嘉定区·大润发超市(嘉定店)",
         "district_avg": 0.0
       },
       {
@@ -308,7 +352,9 @@
         "market_avg": 14.7,
         "supermarket_avg": 16.955555555555556,
         "min_price": 10.0,
+        "min_source": "浦东新区·航盛农贸市场",
         "max_price": 21.98,
+        "max_source": "杨浦区·大润发超市(长阳店)",
         "district_avg": 0.0
       },
       {
@@ -321,7 +367,9 @@
         "market_avg": 23.682499999999997,
         "supermarket_avg": 30.929999999999996,
         "min_price": 20.0,
+        "min_source": "浦东新区·高东集贸市场",
         "max_price": 39.9,
+        "max_source": "闵行区·大润发超市(春申店)",
         "district_avg": 0.0
       }
     ],
@@ -336,7 +384,9 @@
         "market_avg": 4.1615,
         "supermarket_avg": 2.8559999999999994,
         "min_price": 1.58,
+        "min_source": "浦东新区·大润发超市(三林店)",
         "max_price": 10.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -349,7 +399,9 @@
         "market_avg": 4.520731707317073,
         "supermarket_avg": 3.532,
         "min_price": 1.98,
+        "min_source": "普陀区·世纪联华（桃浦店）",
         "max_price": 7.5,
+        "max_source": "松江区·人乐农贸市场",
         "district_avg": 0.0
       },
       {
@@ -362,7 +414,9 @@
         "market_avg": 4.066249999999999,
         "supermarket_avg": 3.0607692307692314,
         "min_price": 1.5,
+        "min_source": "普陀区·芝川农贸市场",
         "max_price": 6.22,
+        "max_source": "青浦区·世纪联华超市(青浦店)",
         "district_avg": 0.0
       },
       {
@@ -375,7 +429,9 @@
         "market_avg": 2.751951219512195,
         "supermarket_avg": 1.7918181818181822,
         "min_price": 1.28,
+        "min_source": "青浦区·世纪联华超市(青浦店)",
         "max_price": 5.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -388,7 +444,9 @@
         "market_avg": 8.861842105263158,
         "supermarket_avg": 8.402727272727272,
         "min_price": 4.5,
+        "min_source": "宝山区·绿叶市集团结店",
         "max_price": 15.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -401,7 +459,9 @@
         "market_avg": 5.075121951219512,
         "supermarket_avg": 4.622000000000001,
         "min_price": 3.0,
+        "min_source": "长宁区·新长宁我家菜市场",
         "max_price": 8.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -414,7 +474,9 @@
         "market_avg": 5.51780487804878,
         "supermarket_avg": 5.191764705882353,
         "min_price": 2.64,
+        "min_source": "浦东新区·世纪联华超市(南汇店)",
         "max_price": 11.98,
+        "max_source": "青浦区·世纪联华超市(青浦店)",
         "district_avg": 0.0
       },
       {
@@ -427,7 +489,9 @@
         "market_avg": 4.526410256410257,
         "supermarket_avg": 4.26,
         "min_price": 2.5,
+        "min_source": "闵行区·新安农贸市场",
         "max_price": 6.5,
+        "max_source": "松江区·人乐农贸市场",
         "district_avg": 0.0
       },
       {
@@ -440,7 +504,9 @@
         "market_avg": 5.15325,
         "supermarket_avg": 4.37125,
         "min_price": 1.5,
+        "min_source": "徐汇区·农工商超市（柳州店）",
         "max_price": 11.8,
+        "max_source": "普陀区·芝川农贸市场",
         "district_avg": 0.0
       },
       {
@@ -453,7 +519,9 @@
         "market_avg": 5.222857142857143,
         "supermarket_avg": 5.0675,
         "min_price": 3.0,
+        "min_source": "徐汇区·农工商超市（柳州店）",
         "max_price": 8.0,
+        "max_source": "宝山区·呼玛农贸市场",
         "district_avg": 0.0
       },
       {
@@ -466,7 +534,9 @@
         "market_avg": 11.375,
         "supermarket_avg": 8.0,
         "min_price": 8.0,
+        "min_source": "宝山区·绿叶市集团结店",
         "max_price": 13.0,
+        "max_source": "嘉定区·荣创集贸市场戬浜分公司",
         "district_avg": 0.0
       },
       {
@@ -479,7 +549,9 @@
         "market_avg": 2.190810810810811,
         "supermarket_avg": 2.013333333333333,
         "min_price": 0.98,
+        "min_source": "松江区·玉昆生鲜集市",
         "max_price": 3.5,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -492,7 +564,9 @@
         "market_avg": 5.043414634146341,
         "supermarket_avg": 3.707368421052632,
         "min_price": 1.98,
+        "min_source": "宝山区·世纪联华（月浦店）",
         "max_price": 8.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -505,7 +579,9 @@
         "market_avg": 4.766585365853659,
         "supermarket_avg": 3.4231578947368417,
         "min_price": 2.0,
+        "min_source": "徐汇区·农工商超市（柳州店）",
         "max_price": 8.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -518,7 +594,9 @@
         "market_avg": 2.9117073170731707,
         "supermarket_avg": 2.0005263157894735,
         "min_price": 1.5,
+        "min_source": "徐汇区·农工商超市（柳州店）",
         "max_price": 5.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -531,7 +609,9 @@
         "market_avg": 5.414146341463415,
         "supermarket_avg": 4.968125000000001,
         "min_price": 2.5,
+        "min_source": "徐汇区·农工商超市（柳州店）",
         "max_price": 10.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -544,7 +624,9 @@
         "market_avg": 9.467179487179488,
         "supermarket_avg": 8.331666666666667,
         "min_price": 5.0,
+        "min_source": "长宁区·新长宁我家菜市场",
         "max_price": 13.0,
+        "max_source": "杨浦区·乐家福菜场",
         "district_avg": 0.0
       },
       {
@@ -557,7 +639,9 @@
         "market_avg": 2.0934146341463413,
         "supermarket_avg": 1.4188235294117646,
         "min_price": 0.88,
+        "min_source": "松江区·大润发超市(荣乐中路店)",
         "max_price": 4.0,
+        "max_source": "浦东新区·羽山农贸市场",
         "district_avg": 0.0
       },
       {
@@ -570,7 +654,9 @@
         "market_avg": 2.2690243902439025,
         "supermarket_avg": 1.8433333333333333,
         "min_price": 0.99,
+        "min_source": "浦东新区·大润发超市(三林店)",
         "max_price": 3.98,
+        "max_source": "黄浦区·世纪联华超市(鲁班店)",
         "district_avg": 0.0
       },
       {
@@ -583,7 +669,9 @@
         "market_avg": 3.0836585365853657,
         "supermarket_avg": 2.0699999999999994,
         "min_price": 1.28,
+        "min_source": "杨浦区·大润发超市(长阳店)",
         "max_price": 5.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -596,7 +684,9 @@
         "market_avg": 5.5702439024390245,
         "supermarket_avg": 5.372777777777778,
         "min_price": 2.58,
+        "min_source": "普陀区·世纪联华（桃浦店）",
         "max_price": 9.91,
+        "max_source": "闵行区·麦德龙闵行店",
         "district_avg": 0.0
       },
       {
@@ -609,7 +699,9 @@
         "market_avg": 5.701999999999999,
         "supermarket_avg": 4.914166666666667,
         "min_price": 1.5,
+        "min_source": "徐汇区·农工商超市（柳州店）",
         "max_price": 11.16,
+        "max_source": "青浦区·世纪联华超市(青浦店)",
         "district_avg": 0.0
       },
       {
@@ -622,7 +714,9 @@
         "market_avg": 4.98780487804878,
         "supermarket_avg": 3.827894736842105,
         "min_price": 1.99,
+        "min_source": "黄浦区·世纪联华超市(鲁班店)",
         "max_price": 7.0,
+        "max_source": "杨浦区·乐家福菜场",
         "district_avg": 0.0
       },
       {
@@ -635,7 +729,9 @@
         "market_avg": 4.781499999999999,
         "supermarket_avg": 3.84,
         "min_price": 2.0,
+        "min_source": "浦东新区·云莲农贸市场",
         "max_price": 7.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -648,7 +744,9 @@
         "market_avg": 5.7056097560975605,
         "supermarket_avg": 7.08818181818182,
         "min_price": 3.5,
+        "min_source": "闵行区·陇南农贸市场",
         "max_price": 12.5,
+        "max_source": "普陀区·芝川农贸市场",
         "district_avg": 0.0
       },
       {
@@ -661,7 +759,9 @@
         "market_avg": 7.393414634146342,
         "supermarket_avg": 6.014,
         "min_price": 3.98,
+        "min_source": "黄浦区·世纪联华超市(鲁班店)",
         "max_price": 13.62,
+        "max_source": "闵行区·麦德龙闵行店",
         "district_avg": 0.0
       },
       {
@@ -674,7 +774,9 @@
         "market_avg": 12.887804878048783,
         "supermarket_avg": 11.46727272727273,
         "min_price": 6.98,
+        "min_source": "黄浦区·世纪联华超市(鲁班店)",
         "max_price": 18.0,
+        "max_source": "长宁区·美天虹康农贸市场",
         "district_avg": 0.0
       },
       {
@@ -687,7 +789,9 @@
         "market_avg": 12.754999999999999,
         "supermarket_avg": 11.41875,
         "min_price": 8.5,
+        "min_source": "浦东新区·云莲农贸市场",
         "max_price": 15.19,
+        "max_source": "闵行区·麦德龙闵行店",
         "district_avg": 0.0
       },
       {
@@ -700,7 +804,9 @@
         "market_avg": 8.51375,
         "supermarket_avg": 7.6866666666666665,
         "min_price": 5.8,
+        "min_source": "普陀区·芝川农贸市场",
         "max_price": 11.0,
+        "max_source": "徐汇区·嘉陵农贸市场",
         "district_avg": 0.0
       },
       {
@@ -713,7 +819,9 @@
         "market_avg": 8.894634146341463,
         "supermarket_avg": 7.740666666666669,
         "min_price": 4.7,
+        "min_source": "金山区·欧尚超市(石化店)",
         "max_price": 14.95,
+        "max_source": "青浦区·世纪联华超市(青浦店)",
         "district_avg": 0.0
       },
       {
@@ -726,7 +834,9 @@
         "market_avg": 8.564146341463415,
         "supermarket_avg": 6.837058823529413,
         "min_price": 4.98,
+        "min_source": "青浦区·世纪联华超市(青浦店)",
         "max_price": 12.0,
+        "max_source": "宝山区·翼家菜场",
         "district_avg": 0.0
       },
       {
@@ -739,7 +849,9 @@
         "market_avg": 2.933658536585366,
         "supermarket_avg": 2.4626315789473683,
         "min_price": 1.98,
+        "min_source": "浦东新区·南季生鲜超市",
         "max_price": 4.5,
+        "max_source": "普陀区·合阳农贸市场",
         "district_avg": 0.0
       },
       {
@@ -752,7 +864,9 @@
         "market_avg": 5.945853658536586,
         "supermarket_avg": 4.466842105263157,
         "min_price": 3.4,
+        "min_source": "静安区·大润发超市(闸北店)",
         "max_price": 8.0,
+        "max_source": "崇明区·北门农贸市场",
         "district_avg": 0.0
       },
       {
@@ -765,7 +879,9 @@
         "market_avg": 4.512307692307692,
         "supermarket_avg": 4.72875,
         "min_price": 2.98,
+        "min_source": "松江区·玉昆生鲜集市",
         "max_price": 7.98,
+        "max_source": "黄浦区·世纪联华超市(鲁班店)",
         "district_avg": 0.0
       }
     ],
@@ -780,7 +896,9 @@
         "market_avg": 6.198181818181817,
         "supermarket_avg": 5.130000000000001,
         "min_price": 3.1,
+        "min_source": "浦东新区·云莲农贸市场",
         "max_price": 8.8,
+        "max_source": "宝山区·翼家菜场",
         "district_avg": 0.0
       },
       {
@@ -793,7 +911,9 @@
         "market_avg": 6.469032258064517,
         "supermarket_avg": 6.122222222222222,
         "min_price": 3.75,
+        "min_source": "浦东新区·云莲农贸市场",
         "max_price": 9.8,
+        "max_source": "宝山区·绿叶市集团结店",
         "district_avg": 0.0
       },
       {
@@ -806,7 +926,9 @@
         "market_avg": 3.4374193548387093,
         "supermarket_avg": 4.49,
         "min_price": 2.0,
+        "min_source": "宝山区·翼家菜场",
         "max_price": 5.98,
+        "max_source": "嘉定区·大润发超市(嘉定店)",
         "district_avg": 0.0
       },
       {
@@ -819,7 +941,9 @@
         "market_avg": 4.774333333333334,
         "supermarket_avg": 4.510999999999999,
         "min_price": 2.98,
+        "min_source": "虹口区·世纪联华超市（虹口店）",
         "max_price": 7.0,
+        "max_source": "松江区·兰桥集贸市场",
         "district_avg": 0.0
       },
       {
@@ -832,7 +956,9 @@
         "market_avg": 2.6196875,
         "supermarket_avg": 3.632352941176471,
         "min_price": 1.5,
+        "min_source": "普陀区·合阳农贸市场",
         "max_price": 5.98,
+        "max_source": "普陀区·世纪联华（桃浦店）",
         "district_avg": 0.0
       },
       {
@@ -845,7 +971,9 @@
         "market_avg": 8.47677419354839,
         "supermarket_avg": 10.022857142857145,
         "min_price": 4.8,
+        "min_source": "徐汇区·嘉陵农贸市场",
         "max_price": 14.32,
+        "max_source": "闵行区·麦德龙闵行店",
         "district_avg": 0.0
       }
     ]
@@ -861,7 +989,9 @@
       "market_avg": 2.8994999999999993,
       "supermarket_avg": 2.5422222222222226,
       "min_price": 2.28,
+      "min_source": "浦东新区·大润发超市(三林店)",
       "max_price": 3.8,
+      "max_source": "杨浦区·乐家福菜场",
       "district_avg": 0.0
     },
     {
@@ -874,7 +1004,9 @@
       "market_avg": 55.14871794871795,
       "supermarket_avg": 61.8,
       "min_price": 40.5,
+      "min_source": "浦东新区·南季生鲜超市",
       "max_price": 89.9,
+      "max_source": "浦东新区·世纪联华超市(南汇店)",
       "district_avg": 0.0
     },
     {
@@ -887,7 +1019,9 @@
       "market_avg": 3.3661538461538463,
       "supermarket_avg": 3.4539999999999997,
       "min_price": 2.5,
+      "min_source": "浦东新区·航盛农贸市场",
       "max_price": 5.0,
+      "max_source": "黄浦区·江南菜场",
       "district_avg": 0.0
     },
     {
@@ -900,7 +1034,9 @@
       "market_avg": 4.0394736842105265,
       "supermarket_avg": 4.62,
       "min_price": 3.0,
+      "min_source": "普陀区·合阳农贸市场",
       "max_price": 6.3,
+      "max_source": "虹口区·世纪联华超市（虹口店）",
       "district_avg": 0.0
     },
     {
@@ -913,7 +1049,9 @@
       "market_avg": 149.53846153846155,
       "supermarket_avg": 157.67222222222225,
       "min_price": 65.0,
+      "min_source": "长宁区·美天虹康农贸市场",
       "max_price": 184.0,
+      "max_source": "长宁区·新长宁我家菜市场",
       "district_avg": 0.0
     },
     {
@@ -926,7 +1064,9 @@
       "market_avg": 53.02580645161291,
       "supermarket_avg": 53.92,
       "min_price": 45.0,
+      "min_source": "浦东新区·张桥农贸市场",
       "max_price": 69.0,
+      "max_source": "普陀区·芝川农贸市场",
       "district_avg": 0.0
     },
     {
@@ -939,7 +1079,9 @@
       "market_avg": 54.06666666666667,
       "supermarket_avg": 65.9,
       "min_price": 48.0,
+      "min_source": "闵行区·七宝九星农副产品市场",
       "max_price": 70.0,
+      "max_source": "普陀区·芝川农贸市场",
       "district_avg": 0.0
     },
     {
@@ -952,7 +1094,9 @@
       "market_avg": 60.25,
       "supermarket_avg": 69.47999999999999,
       "min_price": 50.0,
+      "min_source": "浦东新区·张桥农贸市场",
       "max_price": 79.9,
+      "max_source": "普陀区·世纪联华（桃浦店）",
       "district_avg": 0.0
     },
     {
@@ -965,7 +1109,9 @@
       "market_avg": 58.839999999999996,
       "supermarket_avg": 55.02857142857142,
       "min_price": 48.0,
+      "min_source": "黄浦区·江南菜场",
       "max_price": 70.0,
+      "max_source": "普陀区·芝川农贸市场",
       "district_avg": 0.0
     },
     {
@@ -978,7 +1124,9 @@
       "market_avg": 17.8775,
       "supermarket_avg": 16.59,
       "min_price": 11.38,
+      "min_source": "金山区·欧尚超市(石化店)",
       "max_price": 28.8,
+      "max_source": "普陀区·农工商超市118店",
       "district_avg": 0.0
     },
     {
@@ -991,7 +1139,9 @@
       "market_avg": 19.34390243902439,
       "supermarket_avg": 17.540000000000003,
       "min_price": 9.8,
+      "min_source": "静安区·大润发超市(闸北店)",
       "max_price": 43.8,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1004,7 +1154,9 @@
       "market_avg": 14.856097560975611,
       "supermarket_avg": 12.547499999999998,
       "min_price": 6.88,
+      "min_source": "浦东新区·大润发超市(三林店)",
       "max_price": 28.8,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1017,7 +1169,9 @@
       "market_avg": 29.146153846153847,
       "supermarket_avg": 30.194666666666663,
       "min_price": 19.0,
+      "min_source": "浦东新区·航盛农贸市场",
       "max_price": 50.0,
+      "max_source": "普陀区·农工商超市118店",
       "district_avg": 0.0
     },
     {
@@ -1030,7 +1184,9 @@
       "market_avg": 50.79230769230769,
       "supermarket_avg": 51.36363636363635,
       "min_price": 36.0,
+      "min_source": "浦东新区·世纪联华超市(南汇店)",
       "max_price": 69.9,
+      "max_source": "闵行区·大润发超市(春申店)",
       "district_avg": 0.0
     },
     {
@@ -1043,7 +1199,9 @@
       "market_avg": 42.353846153846156,
       "supermarket_avg": 45.69833333333333,
       "min_price": 30.0,
+      "min_source": "浦东新区·航盛农贸市场",
       "max_price": 59.8,
+      "max_source": "金山区·欧尚超市(石化店)",
       "district_avg": 0.0
     },
     {
@@ -1056,7 +1214,9 @@
       "market_avg": 37.49310344827586,
       "supermarket_avg": 41.125,
       "min_price": 25.0,
+      "min_source": "闵行区·陇南农贸市场",
       "max_price": 49.9,
+      "max_source": "金山区·欧尚超市(石化店)",
       "district_avg": 0.0
     },
     {
@@ -1069,7 +1229,9 @@
       "market_avg": 13.585714285714285,
       "supermarket_avg": 14.573333333333336,
       "min_price": 9.0,
+      "min_source": "闵行区·新安农贸市场",
       "max_price": 21.0,
+      "max_source": "宝山区·绿叶市集团结店",
       "district_avg": 0.0
     },
     {
@@ -1082,7 +1244,9 @@
       "market_avg": 6.1057500000000005,
       "supermarket_avg": 6.05,
       "min_price": 3.98,
+      "min_source": "松江区·大润发超市(荣乐中路店)",
       "max_price": 7.3,
+      "max_source": "闵行区·麦德龙闵行店",
       "district_avg": 0.0
     },
     {
@@ -1095,7 +1259,9 @@
       "market_avg": 30.77948717948718,
       "supermarket_avg": 25.849999999999998,
       "min_price": 18.0,
+      "min_source": "浦东新区·高东集贸市场",
       "max_price": 48.0,
+      "max_source": "长宁区·美天程桥农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1108,7 +1274,9 @@
       "market_avg": 31.06,
       "supermarket_avg": 28.020000000000003,
       "min_price": 15.0,
+      "min_source": "松江区·玉昆生鲜集市",
       "max_price": 43.0,
+      "max_source": "闵行区·新安农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1121,7 +1289,9 @@
       "market_avg": 11.847222222222221,
       "supermarket_avg": 13.48,
       "min_price": 10.0,
+      "min_source": "静安区·武定农贸市场",
       "max_price": 19.0,
+      "max_source": "虹口区·密云农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1134,7 +1304,9 @@
       "market_avg": 12.53076923076923,
       "supermarket_avg": 14.006666666666668,
       "min_price": 10.0,
+      "min_source": "宝山区·绿叶市集团结店",
       "max_price": 19.8,
+      "max_source": "嘉定区·大润发超市(嘉定店)",
       "district_avg": 0.0
     },
     {
@@ -1147,7 +1319,9 @@
       "market_avg": 14.7,
       "supermarket_avg": 16.955555555555556,
       "min_price": 10.0,
+      "min_source": "浦东新区·航盛农贸市场",
       "max_price": 21.98,
+      "max_source": "杨浦区·大润发超市(长阳店)",
       "district_avg": 0.0
     },
     {
@@ -1160,7 +1334,9 @@
       "market_avg": 23.682499999999997,
       "supermarket_avg": 30.929999999999996,
       "min_price": 20.0,
+      "min_source": "浦东新区·高东集贸市场",
       "max_price": 39.9,
+      "max_source": "闵行区·大润发超市(春申店)",
       "district_avg": 0.0
     },
     {
@@ -1173,7 +1349,9 @@
       "market_avg": 4.1615,
       "supermarket_avg": 2.8559999999999994,
       "min_price": 1.58,
+      "min_source": "浦东新区·大润发超市(三林店)",
       "max_price": 10.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1186,7 +1364,9 @@
       "market_avg": 4.520731707317073,
       "supermarket_avg": 3.532,
       "min_price": 1.98,
+      "min_source": "普陀区·世纪联华（桃浦店）",
       "max_price": 7.5,
+      "max_source": "松江区·人乐农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1199,7 +1379,9 @@
       "market_avg": 4.066249999999999,
       "supermarket_avg": 3.0607692307692314,
       "min_price": 1.5,
+      "min_source": "普陀区·芝川农贸市场",
       "max_price": 6.22,
+      "max_source": "青浦区·世纪联华超市(青浦店)",
       "district_avg": 0.0
     },
     {
@@ -1212,7 +1394,9 @@
       "market_avg": 2.751951219512195,
       "supermarket_avg": 1.7918181818181822,
       "min_price": 1.28,
+      "min_source": "青浦区·世纪联华超市(青浦店)",
       "max_price": 5.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1225,7 +1409,9 @@
       "market_avg": 8.861842105263158,
       "supermarket_avg": 8.402727272727272,
       "min_price": 4.5,
+      "min_source": "宝山区·绿叶市集团结店",
       "max_price": 15.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1238,7 +1424,9 @@
       "market_avg": 5.075121951219512,
       "supermarket_avg": 4.622000000000001,
       "min_price": 3.0,
+      "min_source": "长宁区·新长宁我家菜市场",
       "max_price": 8.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1251,7 +1439,9 @@
       "market_avg": 5.51780487804878,
       "supermarket_avg": 5.191764705882353,
       "min_price": 2.64,
+      "min_source": "浦东新区·世纪联华超市(南汇店)",
       "max_price": 11.98,
+      "max_source": "青浦区·世纪联华超市(青浦店)",
       "district_avg": 0.0
     },
     {
@@ -1264,7 +1454,9 @@
       "market_avg": 4.526410256410257,
       "supermarket_avg": 4.26,
       "min_price": 2.5,
+      "min_source": "闵行区·新安农贸市场",
       "max_price": 6.5,
+      "max_source": "松江区·人乐农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1277,7 +1469,9 @@
       "market_avg": 5.15325,
       "supermarket_avg": 4.37125,
       "min_price": 1.5,
+      "min_source": "徐汇区·农工商超市（柳州店）",
       "max_price": 11.8,
+      "max_source": "普陀区·芝川农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1290,7 +1484,9 @@
       "market_avg": 5.222857142857143,
       "supermarket_avg": 5.0675,
       "min_price": 3.0,
+      "min_source": "徐汇区·农工商超市（柳州店）",
       "max_price": 8.0,
+      "max_source": "宝山区·呼玛农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1303,7 +1499,9 @@
       "market_avg": 11.375,
       "supermarket_avg": 8.0,
       "min_price": 8.0,
+      "min_source": "宝山区·绿叶市集团结店",
       "max_price": 13.0,
+      "max_source": "嘉定区·荣创集贸市场戬浜分公司",
       "district_avg": 0.0
     },
     {
@@ -1316,7 +1514,9 @@
       "market_avg": 2.190810810810811,
       "supermarket_avg": 2.013333333333333,
       "min_price": 0.98,
+      "min_source": "松江区·玉昆生鲜集市",
       "max_price": 3.5,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1329,7 +1529,9 @@
       "market_avg": 5.043414634146341,
       "supermarket_avg": 3.707368421052632,
       "min_price": 1.98,
+      "min_source": "宝山区·世纪联华（月浦店）",
       "max_price": 8.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1342,7 +1544,9 @@
       "market_avg": 4.766585365853659,
       "supermarket_avg": 3.4231578947368417,
       "min_price": 2.0,
+      "min_source": "徐汇区·农工商超市（柳州店）",
       "max_price": 8.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1355,7 +1559,9 @@
       "market_avg": 2.9117073170731707,
       "supermarket_avg": 2.0005263157894735,
       "min_price": 1.5,
+      "min_source": "徐汇区·农工商超市（柳州店）",
       "max_price": 5.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1368,7 +1574,9 @@
       "market_avg": 5.414146341463415,
       "supermarket_avg": 4.968125000000001,
       "min_price": 2.5,
+      "min_source": "徐汇区·农工商超市（柳州店）",
       "max_price": 10.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1381,7 +1589,9 @@
       "market_avg": 9.467179487179488,
       "supermarket_avg": 8.331666666666667,
       "min_price": 5.0,
+      "min_source": "长宁区·新长宁我家菜市场",
       "max_price": 13.0,
+      "max_source": "杨浦区·乐家福菜场",
       "district_avg": 0.0
     },
     {
@@ -1394,7 +1604,9 @@
       "market_avg": 2.0934146341463413,
       "supermarket_avg": 1.4188235294117646,
       "min_price": 0.88,
+      "min_source": "松江区·大润发超市(荣乐中路店)",
       "max_price": 4.0,
+      "max_source": "浦东新区·羽山农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1407,7 +1619,9 @@
       "market_avg": 2.2690243902439025,
       "supermarket_avg": 1.8433333333333333,
       "min_price": 0.99,
+      "min_source": "浦东新区·大润发超市(三林店)",
       "max_price": 3.98,
+      "max_source": "黄浦区·世纪联华超市(鲁班店)",
       "district_avg": 0.0
     },
     {
@@ -1420,7 +1634,9 @@
       "market_avg": 3.0836585365853657,
       "supermarket_avg": 2.0699999999999994,
       "min_price": 1.28,
+      "min_source": "杨浦区·大润发超市(长阳店)",
       "max_price": 5.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1433,7 +1649,9 @@
       "market_avg": 5.5702439024390245,
       "supermarket_avg": 5.372777777777778,
       "min_price": 2.58,
+      "min_source": "普陀区·世纪联华（桃浦店）",
       "max_price": 9.91,
+      "max_source": "闵行区·麦德龙闵行店",
       "district_avg": 0.0
     },
     {
@@ -1446,7 +1664,9 @@
       "market_avg": 5.701999999999999,
       "supermarket_avg": 4.914166666666667,
       "min_price": 1.5,
+      "min_source": "徐汇区·农工商超市（柳州店）",
       "max_price": 11.16,
+      "max_source": "青浦区·世纪联华超市(青浦店)",
       "district_avg": 0.0
     },
     {
@@ -1459,7 +1679,9 @@
       "market_avg": 4.98780487804878,
       "supermarket_avg": 3.827894736842105,
       "min_price": 1.99,
+      "min_source": "黄浦区·世纪联华超市(鲁班店)",
       "max_price": 7.0,
+      "max_source": "杨浦区·乐家福菜场",
       "district_avg": 0.0
     },
     {
@@ -1472,7 +1694,9 @@
       "market_avg": 4.781499999999999,
       "supermarket_avg": 3.84,
       "min_price": 2.0,
+      "min_source": "浦东新区·云莲农贸市场",
       "max_price": 7.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1485,7 +1709,9 @@
       "market_avg": 5.7056097560975605,
       "supermarket_avg": 7.08818181818182,
       "min_price": 3.5,
+      "min_source": "闵行区·陇南农贸市场",
       "max_price": 12.5,
+      "max_source": "普陀区·芝川农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1498,7 +1724,9 @@
       "market_avg": 7.393414634146342,
       "supermarket_avg": 6.014,
       "min_price": 3.98,
+      "min_source": "黄浦区·世纪联华超市(鲁班店)",
       "max_price": 13.62,
+      "max_source": "闵行区·麦德龙闵行店",
       "district_avg": 0.0
     },
     {
@@ -1511,7 +1739,9 @@
       "market_avg": 12.887804878048783,
       "supermarket_avg": 11.46727272727273,
       "min_price": 6.98,
+      "min_source": "黄浦区·世纪联华超市(鲁班店)",
       "max_price": 18.0,
+      "max_source": "长宁区·美天虹康农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1524,7 +1754,9 @@
       "market_avg": 12.754999999999999,
       "supermarket_avg": 11.41875,
       "min_price": 8.5,
+      "min_source": "浦东新区·云莲农贸市场",
       "max_price": 15.19,
+      "max_source": "闵行区·麦德龙闵行店",
       "district_avg": 0.0
     },
     {
@@ -1537,7 +1769,9 @@
       "market_avg": 8.51375,
       "supermarket_avg": 7.6866666666666665,
       "min_price": 5.8,
+      "min_source": "普陀区·芝川农贸市场",
       "max_price": 11.0,
+      "max_source": "徐汇区·嘉陵农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1550,7 +1784,9 @@
       "market_avg": 8.894634146341463,
       "supermarket_avg": 7.740666666666669,
       "min_price": 4.7,
+      "min_source": "金山区·欧尚超市(石化店)",
       "max_price": 14.95,
+      "max_source": "青浦区·世纪联华超市(青浦店)",
       "district_avg": 0.0
     },
     {
@@ -1563,7 +1799,9 @@
       "market_avg": 8.564146341463415,
       "supermarket_avg": 6.837058823529413,
       "min_price": 4.98,
+      "min_source": "青浦区·世纪联华超市(青浦店)",
       "max_price": 12.0,
+      "max_source": "宝山区·翼家菜场",
       "district_avg": 0.0
     },
     {
@@ -1576,7 +1814,9 @@
       "market_avg": 2.933658536585366,
       "supermarket_avg": 2.4626315789473683,
       "min_price": 1.98,
+      "min_source": "浦东新区·南季生鲜超市",
       "max_price": 4.5,
+      "max_source": "普陀区·合阳农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1589,7 +1829,9 @@
       "market_avg": 5.945853658536586,
       "supermarket_avg": 4.466842105263157,
       "min_price": 3.4,
+      "min_source": "静安区·大润发超市(闸北店)",
       "max_price": 8.0,
+      "max_source": "崇明区·北门农贸市场",
       "district_avg": 0.0
     },
     {
@@ -1602,7 +1844,9 @@
       "market_avg": 4.512307692307692,
       "supermarket_avg": 4.72875,
       "min_price": 2.98,
+      "min_source": "松江区·玉昆生鲜集市",
       "max_price": 7.98,
+      "max_source": "黄浦区·世纪联华超市(鲁班店)",
       "district_avg": 0.0
     },
     {
@@ -1615,7 +1859,9 @@
       "market_avg": 6.198181818181817,
       "supermarket_avg": 5.130000000000001,
       "min_price": 3.1,
+      "min_source": "浦东新区·云莲农贸市场",
       "max_price": 8.8,
+      "max_source": "宝山区·翼家菜场",
       "district_avg": 0.0
     },
     {
@@ -1628,7 +1874,9 @@
       "market_avg": 6.469032258064517,
       "supermarket_avg": 6.122222222222222,
       "min_price": 3.75,
+      "min_source": "浦东新区·云莲农贸市场",
       "max_price": 9.8,
+      "max_source": "宝山区·绿叶市集团结店",
       "district_avg": 0.0
     },
     {
@@ -1641,7 +1889,9 @@
       "market_avg": 3.4374193548387093,
       "supermarket_avg": 4.49,
       "min_price": 2.0,
+      "min_source": "宝山区·翼家菜场",
       "max_price": 5.98,
+      "max_source": "嘉定区·大润发超市(嘉定店)",
       "district_avg": 0.0
     },
     {
@@ -1654,7 +1904,9 @@
       "market_avg": 4.774333333333334,
       "supermarket_avg": 4.510999999999999,
       "min_price": 2.98,
+      "min_source": "虹口区·世纪联华超市（虹口店）",
       "max_price": 7.0,
+      "max_source": "松江区·兰桥集贸市场",
       "district_avg": 0.0
     },
     {
@@ -1667,7 +1919,9 @@
       "market_avg": 2.6196875,
       "supermarket_avg": 3.632352941176471,
       "min_price": 1.5,
+      "min_source": "普陀区·合阳农贸市场",
       "max_price": 5.98,
+      "max_source": "普陀区·世纪联华（桃浦店）",
       "district_avg": 0.0
     },
     {
@@ -1680,7 +1934,9 @@
       "market_avg": 8.47677419354839,
       "supermarket_avg": 10.022857142857145,
       "min_price": 4.8,
+      "min_source": "徐汇区·嘉陵农贸市场",
       "max_price": 14.32,
+      "max_source": "闵行区·麦德龙闵行店",
       "district_avg": 0.0
     }
   ]
