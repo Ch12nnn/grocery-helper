@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#059669">
+  <title>上海买菜助手 · 菜场手机实时比价</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      background-color: #f8fafc;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .safe-bottom {
+      padding-bottom: env(safe-area-inset-bottom, 24px);
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="text-slate-800 safe-bottom">
+
+  <!-- 顶部状态栏 -->
+  <header class="sticky top-0 z-30 bg-emerald-600 text-white shadow-md">
+    <div class="max-w-5xl xl:max-w-6xl mx-auto px-4 lg:px-8 py-3.5 flex items-center justify-between">
+      <div class="flex items-center space-x-2.5">
+        <span class="text-2xl lg:text-3xl">🥬</span>
+        <div>
+          <h1 class="text-base lg:text-lg font-black leading-tight">上海买菜助手</h1>
+          <p id="sub-header" class="text-[11px] lg:text-xs text-emerald-100">正在同步上海市发改委菜价...</p>
+        </div>
+      </div>
+      <div class="flex items-center space-x-2">
+        <!-- 离线缓存状态徽标 -->
+        <div id="status-badge" class="text-[10px] lg:text-xs bg-emerald-700/90 text-emerald-100 px-2.5 py-1 rounded-full flex items-center space-x-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
+          <span>在线就绪</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 顶部选项卡 -->
+    <div class="max-w-5xl xl:max-w-6xl mx-auto px-2 lg:px-8 flex border-t border-emerald-500/50 text-xs lg:text-sm font-medium overflow-x-auto no-scrollbar">
+      <button onclick="switchTab('compare')" id="tab-btn-compare" class="flex-1 py-2.5 lg:py-3.5 text-center text-white border-b-2 border-white transition flex items-center justify-center space-x-1.5">
+        <span>🔍</span><span>现场比价</span>
+      </button>
+      <button onclick="switchTab('favorites')" id="tab-btn-favorites" class="flex-1 py-2.5 lg:py-3.5 text-center text-emerald-100 hover:text-white border-b-2 border-transparent transition flex items-center justify-center space-x-1.5">
+        <span>⭐</span><span>我的常买</span>
+      </button>
+      <button onclick="switchTab('all')" id="tab-btn-all" class="flex-1 py-2.5 lg:py-3.5 text-center text-emerald-100 hover:text-white border-b-2 border-transparent transition flex items-center justify-center space-x-1.5">
+        <span>📋</span><span>今日大盘</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="max-w-5xl xl:max-w-6xl mx-auto px-4 lg:px-8 py-4 lg:py-6 space-y-4 lg:space-y-6">
+
+    <!-- TAB 1: 现场比价器 (手机单列 / 电脑端双列自适应) -->
+    <section id="tab-compare">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        
+        <!-- 左侧列 (电脑端 5 栏)：选菜面板与官方通报 -->
+        <div class="lg:col-span-5 xl:col-span-5 space-y-4">
+          <!-- 第一步：快速选菜 -->
+          <div class="bg-white rounded-2xl p-4 lg:p-5 shadow-sm border border-slate-100 space-y-3.5">
+            <div class="flex items-center justify-between">
+              <label class="text-xs lg:text-sm font-bold text-slate-500 uppercase tracking-wider">第一步：选择菜摊看到的菜品</label>
+              <button onclick="switchTab('favorites')" class="text-[11px] lg:text-xs text-emerald-600 font-semibold hover:underline">定制常买清单 &gt;</button>
+            </div>
+            
+            <!-- 搜索输入框 -->
+            <div class="relative">
+              <input type="text" id="search-input" placeholder="输入搜索：五花肉、排骨、青菜、番茄、牛腩、鸡蛋..." 
+                     oninput="onSearchInput()" 
+                     class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+            </div>
+
+            <!-- 分类快速筛选胶囊 -->
+            <div class="flex space-x-1.5 overflow-x-auto no-scrollbar pb-1 text-xs lg:flex-wrap lg:gap-1.5 lg:space-x-0">
+              <button onclick="filterCategory('常买')" class="cat-pill bg-emerald-600 text-white px-3 py-1 rounded-full font-medium" data-cat="常买">⭐ 我的常买</button>
+              <button onclick="filterCategory('全部')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="全部">全部(64种)</button>
+              <button onclick="filterCategory('蔬菜')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="蔬菜">🥬 蔬菜</button>
+              <button onclick="filterCategory('肉禽蛋')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="肉禽蛋">🥩 肉蛋</button>
+              <button onclick="filterCategory('鱼虾')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="鱼虾">🐟 水产</button>
+              <button onclick="filterCategory('水果')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="水果">🍎 水果</button>
+            </div>
+
+            <!-- 候选菜品滚动网格 -->
+            <div id="product-chips" class="flex flex-wrap gap-2 max-h-44 lg:max-h-[380px] overflow-y-auto pt-1 no-scrollbar">
+              <!-- 动态注入商品标签 -->
+            </div>
+          </div>
+
+          <!-- 发改委通报条 -->
+          <div class="bg-amber-50 rounded-2xl p-4 border border-amber-200/70 text-xs text-amber-900 space-y-1.5">
+            <div class="flex items-center space-x-1 font-bold text-amber-800">
+              <span>📢</span><span>上海市发改委官方价格通报</span>
+            </div>
+            <p id="official-summary" class="leading-relaxed text-amber-900/90 whitespace-pre-line text-[11px] lg:text-xs"></p>
+          </div>
+        </div>
+
+        <!-- 右侧列 (电脑端 7 栏)：第二步计算器与实时比对 -->
+        <div class="lg:col-span-7 xl:col-span-7 space-y-4 lg:sticky lg:top-28">
+          <!-- 第二步：当前选中菜品与输入单价 -->
+          <div id="calculator-box" class="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-slate-100 space-y-4">
+            
+            <!-- 菜品基准信息栏 -->
+            <div class="flex items-start justify-between border-b border-slate-100 pb-3">
+              <div>
+                <div class="flex items-center space-x-2">
+                  <span id="calc-name" class="text-xl lg:text-2xl font-black text-slate-900">青菜</span>
+                  <span id="calc-category" class="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md font-medium">蔬菜</span>
+                </div>
+                <p id="calc-spec" class="text-xs text-slate-500 mt-0.5">规格：普通一级</p>
+              </div>
+              <div class="text-right">
+                <span class="text-[11px] text-slate-400 block">菜市场零售均价(还价基准)</span>
+                <span id="calc-benchmark" class="text-2xl lg:text-3xl font-black text-emerald-600">4.16</span>
+                <span id="calc-unit" class="text-xs text-slate-500 font-medium">元/斤</span>
+              </div>
+            </div>
+
+            <!-- 价格多维参考格：商超上限 + 全市综合 + 采样区间 -->
+            <div class="grid grid-cols-3 gap-2 text-center text-xs bg-slate-50 p-3 rounded-xl border border-slate-100">
+              <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-2xs">
+                <span class="text-[10px] lg:text-[11px] text-slate-400 block">🏬 大型商超均价</span>
+                <span id="calc-supermarket" class="font-extrabold text-blue-600 text-sm lg:text-base mt-0.5 block">2.86</span>
+                <span class="text-[9px] lg:text-[10px] text-slate-400">大润发/联华等</span>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-2xs">
+                <span class="text-[10px] lg:text-[11px] text-slate-400 block">🏛️ 全市综合均价</span>
+                <span id="calc-city-avg" class="font-extrabold text-slate-700 text-sm lg:text-base mt-0.5 block">3.81</span>
+                <span class="text-[9px] lg:text-[10px] text-slate-400">发改委大盘价</span>
+              </div>
+              <div class="bg-white p-2.5 rounded-xl border border-slate-100 shadow-2xs">
+                <span class="text-[10px] lg:text-[11px] text-slate-400 block">📊 采价区间</span>
+                <span id="calc-range" class="font-bold text-slate-700 text-xs lg:text-sm mt-1 block">1.6 ~ 10.0</span>
+                <span class="text-[9px] lg:text-[10px] text-slate-400">最低 ~ 最高</span>
+              </div>
+            </div>
+
+            <!-- 第二步：输入价格模块（单行组合输入条：价格/分量二合一） -->
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between pb-0.5">
+                <label class="block text-xs lg:text-sm font-bold text-slate-500 uppercase tracking-wider">第二步：输入价格与分量</label>
+                <button type="button" onclick="clearPriceBar()" class="text-xs text-slate-400 hover:text-rose-500 transition font-medium">清空重填</button>
+              </div>
+
+              <!-- 双格输入：[ 价格输入框 ] [ 金额单位下拉 ▾ ]    [ 分量输入框 ] [ 分量单位下拉 ▾ ] -->
+              <div class="grid grid-cols-2 gap-2 sm:gap-3">
+                <!-- 左边：[ 价格输入框 ] [ 元/角/分 下拉 ] -->
+                <div class="flex items-center bg-white border-2 border-emerald-500/60 rounded-2xl p-1.5 shadow-2xs focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-500/20 transition">
+                  <div class="flex-1 min-w-0 bg-slate-50 rounded-xl px-2.5 sm:px-3 py-1.5 sm:py-2">
+                    <input type="number" step="any" id="input-price-val" placeholder="输入金额"
+                           oninput="onPriceBarChanged()"
+                           class="w-full bg-transparent text-slate-900 font-black text-base sm:text-xl focus:outline-none placeholder-slate-400">
+                  </div>
+                  <div class="relative shrink-0 ml-1.5">
+                    <select id="select-currency-val" onchange="onPriceBarChanged()"
+                            class="appearance-none bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl pl-2.5 pr-6 py-2 text-xs sm:text-sm font-black text-slate-800 focus:outline-none focus:border-emerald-500 cursor-pointer shadow-2xs transition">
+                      <option value="yuan" selected>元</option>
+                      <option value="jiao">角</option>
+                      <option value="fen">分</option>
+                    </select>
+                    <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]">▼</span>
+                  </div>
+                </div>
+
+                <!-- 右边：[ 分量输入框 ] [ 斤/kg/g/L/ml 下拉 ] -->
+                <div class="flex items-center bg-white border-2 border-emerald-500/60 rounded-2xl p-1.5 shadow-2xs focus-within:border-emerald-600 focus-within:ring-2 focus-within:ring-emerald-500/20 transition">
+                  <div class="flex-1 min-w-0 bg-slate-50 rounded-xl px-2.5 sm:px-3 py-1.5 sm:py-2">
+                    <input type="number" step="any" id="input-qty-val" value="1" placeholder="分量"
+                           oninput="onPriceBarChanged()"
+                           class="w-full bg-transparent text-slate-900 font-black text-base sm:text-xl text-center focus:outline-none placeholder-slate-400">
+                  </div>
+                  <div class="relative shrink-0 ml-1.5">
+                    <select id="select-unit-val" onchange="onPriceBarChanged()"
+                            class="appearance-none bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl pl-2.5 pr-6 py-2 text-xs sm:text-sm font-black text-slate-800 focus:outline-none focus:border-emerald-500 cursor-pointer shadow-2xs transition">
+                      <option value="jin" selected>斤</option>
+                      <option value="kg">kg</option>
+                      <option value="g">g</option>
+                      <option value="L">L</option>
+                      <option value="ml">ml</option>
+                    </select>
+                    <span class="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 text-[10px]">▼</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 包装规格折算提示条（分量不是 1斤 时自动展现折算过程，如 1.8kg=3.6斤 折合 ¥6.89/斤） -->
+              <div id="pkg-convert-banner" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-2.5 px-3.5 flex items-center justify-between text-xs text-emerald-900 shadow-2xs transition-all">
+                <div class="flex items-center space-x-2">
+                  <span class="text-lg">📦</span>
+                  <div>
+                    <span class="text-[10px] text-emerald-600 block font-semibold">规格折算等效单价</span>
+                    <span id="pkg-banner-spec" class="font-bold text-slate-800">1.8kg = 3.6斤</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="pkg-banner-formula" class="text-[10px] text-slate-400 block">¥24.8 ÷ 3.6斤</span>
+                  <div class="font-black text-emerald-700">
+                    折合 <span class="text-xs font-bold">¥</span><span id="pkg-banner-price" class="text-base font-black">6.89</span><span class="text-xs font-normal text-slate-500"> /斤</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 快捷操作区：常用微调按钮 -->
+              <div class="pt-0.5">
+                <div class="flex justify-between items-center space-x-1.5 text-xs lg:text-sm">
+                  <button type="button" onclick="adjustPrice(-1.0)" class="flex-1 py-1.5 lg:py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 font-bold active:scale-95 transition">-1.0</button>
+                  <button type="button" onclick="adjustPrice(-0.5)" class="flex-1 py-1.5 lg:py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 font-bold active:scale-95 transition">-0.5</button>
+                  <button type="button" onclick="setQuickBenchmark()" class="flex-1 py-1.5 lg:py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-lg font-bold active:scale-95 transition">填入均价</button>
+                  <button type="button" onclick="adjustPrice(+0.5)" class="flex-1 py-1.5 lg:py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 font-bold active:scale-95 transition">+0.5</button>
+                  <button type="button" onclick="adjustPrice(+1.0)" class="flex-1 py-1.5 lg:py-2 bg-slate-100 hover:bg-slate-200 rounded-lg text-slate-700 font-bold active:scale-95 transition">+1.0</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 实时比对结果卡片 -->
+            <div id="result-card" class="hidden rounded-2xl p-4 lg:p-5 transition-all duration-300 space-y-2 border">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span id="result-icon" class="text-3xl lg:text-4xl">✅</span>
+                  <div>
+                    <span id="result-status" class="text-base font-black">价格公道</span>
+                    <span id="result-pct" class="text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded">0.0%</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="text-[10px] lg:text-xs text-slate-400 block">与菜场均价相比</span>
+                  <span id="result-diff" class="text-base lg:text-lg font-bold text-slate-800">0.00 元/斤</span>
+                </div>
+              </div>
+              <!-- 购买建议说明 -->
+              <p id="result-advice" class="text-xs lg:text-sm leading-relaxed pt-2 border-t border-black/5 text-slate-700 font-medium"></p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- TAB 2: 我的常买菜品 (自适应大屏网格) -->
+    <section id="tab-favorites" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-slate-100 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-sm lg:text-base font-bold text-slate-900">定制你的常买清单</h2>
+            <p class="text-xs text-slate-400">设置后，现场比价器首屏将优先展示你勾选的菜品</p>
+          </div>
+          <span id="fav-count-badge" class="text-xs lg:text-sm bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">已选 0 项</span>
+        </div>
+
+        <div class="flex space-x-3 pt-1 text-xs lg:text-sm">
+          <button onclick="selectAllFavorites(true)" class="text-emerald-600 font-medium hover:underline">全选</button>
+          <span class="text-slate-300">|</span>
+          <button onclick="selectAllFavorites(false)" class="text-slate-500 font-medium hover:underline">清空</button>
+          <span class="text-slate-300">|</span>
+          <button onclick="selectPopularDefaults()" class="text-emerald-600 font-medium hover:underline">恢复家庭常备推荐</button>
+        </div>
+
+        <div id="favorites-container" class="space-y-4 max-h-[60vh] lg:max-h-[70vh] overflow-y-auto pr-1 no-scrollbar">
+          <!-- 动态多选分类列表 -->
+        </div>
+
+        <button onclick="saveFavorites()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 rounded-xl text-sm lg:text-base shadow-md shadow-emerald-600/20 active:scale-98 transition flex items-center justify-center space-x-2">
+          <span>💾</span>
+          <span>保存我的常买设置</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- TAB 3: 今日全量大盘 (自适应宽屏表格) -->
+    <section id="tab-all" class="hidden space-y-4">
+      <div class="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-slate-100 space-y-4">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-sm lg:text-base font-bold text-slate-900">全上海 64 种食材官方零售均价</h2>
+            <p class="text-xs text-slate-400">采样覆盖全市 16 区 39 家农贸市场与 17 家大型商超</p>
+          </div>
+          <span id="all-count-badge" class="text-xs lg:text-sm bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium">共 64 种</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs lg:text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 text-slate-400 font-semibold">
+                <th class="py-2.5 lg:py-3.5">类别</th>
+                <th class="py-2.5 lg:py-3.5">品名规格</th>
+                <th class="py-2.5 lg:py-3.5 text-right">菜场均价(基准)</th>
+                <th class="py-2.5 lg:py-3.5 text-right">商超上限</th>
+                <th class="py-2.5 lg:py-3.5 text-right">采价区间</th>
+                <th class="py-2.5 lg:py-3.5 text-center">操作</th>
+              </tr>
+            </thead>
+            <tbody id="all-products-tbody" class="divide-y divide-slate-100">
+              <!-- 动态表格 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 底部固定提示栏 (添加到主屏幕提示) -->
+  <div class="max-w-5xl xl:max-w-6xl mx-auto px-4 lg:px-8 pb-6 text-center">
+    <p class="text-[11px] lg:text-xs text-slate-400">
+      💡 提示：在手机浏览器中点击 <b>“分享”</b> -&gt; <b>“添加到主屏幕”</b>，下次买菜可直接像独立 App 一样秒开！支持离线使用。
+    </p>
+  </div>
+
+  <!-- Toast 提示 -->
+  <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur text-white text-xs px-4 py-2.5 rounded-xl shadow-xl transition-all duration-300 opacity-0 pointer-events-none z-50 flex items-center space-x-2">
+    <span id="toast-icon">ℹ️</span>
+    <span id="toast-msg">提示信息</span>
+  </div>
+
+  <script>
+    // 本地存储键名
+    const STORAGE_KEY_DATA = 'sh_grocery_market_data_v1';
+    const STORAGE_KEY_FAVS = 'sh_grocery_favs_v1';
+
+    let gMarketData = null;
+    let gFavorites = [];
+    let gCurrentProduct = null;
+    let gCurrentCategory = '常买';
+    let gResolvedUnitPrice = 0; // 当前计算折合后的每斤单价
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      loadSavedFavorites();
+      await fetchMarketData();
+    });
+
+    function loadSavedFavorites() {
+      const saved = localStorage.getItem(STORAGE_KEY_FAVS);
+      if (saved) {
+        try {
+          gFavorites = JSON.parse(saved);
+        } catch (e) {
+          gFavorites = [];
+        }
+      }
+      if (!gFavorites || gFavorites.length === 0) {
+        gFavorites = ["青菜", "鸡毛菜", "西红柿", "黄瓜", "土豆", "大白菜", "卷心菜", "鲜猪肉(精瘦肉)", "鲜猪肉(肋排)", "鲜鸡蛋", "鲜牛肉", "基围虾"];
+      }
+    }
+
+    async function fetchMarketData() {
+      // 优先从 localStorage 载入离线缓存（应对菜场地下室无信号场景）
+      const cached = localStorage.getItem(STORAGE_KEY_DATA);
+      if (cached) {
+        try {
+          gMarketData = JSON.parse(cached);
+          document.getElementById('status-badge').innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>离线可用</span>';
+          renderAll();
+        } catch (e) {}
+      }
+
+      // 尝试联网获取最新 data.json
+      try {
+        const resp = await fetch('./data.json?t=' + Date.now());
+        if (resp.ok) {
+          gMarketData = await resp.json();
+          localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(gMarketData));
+          document.getElementById('status-badge').innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span><span>在线已同步</span>';
+          renderAll();
+        }
+      } catch (err) {
+        console.log('Using offline cached data', err);
+        if (!gMarketData) {
+          showToast('无法连接网络且暂无离线缓存', '⚠️');
+        }
+      }
+    }
+
+    function renderAll() {
+      if (!gMarketData) return;
+      document.getElementById('sub-header').innerText = `采价日期: ${gMarketData.date} · 官方监测商品: ${gMarketData.all_products.length} 种`;
+      document.getElementById('official-summary').innerText = gMarketData.summary || '暂无官方价格通报';
+      document.getElementById('all-count-badge').innerText = `共 ${gMarketData.all_products.length} 种`;
+
+      renderProductChips();
+      renderFavoritesTab();
+      renderAllProductsTable();
+
+      // 默认选中第一个
+      if (!gCurrentProduct) {
+        const def = gMarketData.all_products.find(p => p.name === '青菜') || gMarketData.all_products[0];
+        if (def) selectProduct(def);
+      }
+    }
+
+    function switchTab(tabId) {
+      ['compare', 'favorites', 'all'].forEach(t => {
+        const sec = document.getElementById(`tab-${t}`);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tabId) {
+          sec.classList.remove('hidden');
+          btn.classList.remove('text-emerald-100', 'border-transparent');
+          btn.classList.add('text-white', 'border-white');
+        } else {
+          sec.classList.add('hidden');
+          btn.classList.remove('text-white', 'border-white');
+          btn.classList.add('text-emerald-100', 'border-transparent');
+        }
+      });
+    }
+
+    function filterCategory(cat) {
+      gCurrentCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        if (btn.getAttribute('data-cat') === cat) {
+          btn.classList.remove('bg-slate-100', 'text-slate-600');
+          btn.classList.add('bg-emerald-600', 'text-white');
+        } else {
+          btn.classList.remove('bg-emerald-600', 'text-white');
+          btn.classList.add('bg-slate-100', 'text-slate-600');
+        }
+      });
+      renderProductChips();
+    }
+
+    function onSearchInput() {
+      renderProductChips();
+    }
+
+    // 民间常用俗称与发改委官方品类/部位的智能同义词别名库
+    const PRODUCT_ALIASES = {
+      '五花肉': ['肋条肉'],
+      '五花': ['肋条肉'],
+      '排骨': ['肋排'],
+      '小排': ['肋排'],
+      '精肉': ['精瘦肉'],
+      '瘦肉': ['精瘦肉'],
+      '里脊': ['精瘦肉'],
+      '后腿肉': ['带皮后腿肉'],
+      '后腿': ['带皮后腿肉'],
+      '夹心肉': ['带皮后腿肉'],
+      '番茄': ['西红柿'],
+      '包菜': ['卷心菜'],
+      '包心菜': ['卷心菜'],
+      '圆白菜': ['卷心菜'],
+      '甘蓝': ['卷心菜'],
+      '莲花白': ['卷心菜'],
+      '黄芽菜': ['大白菜'],
+      '红萝卜': ['胡萝卜'],
+      '菜花': ['花菜'],
+      '蒜薹': ['蒜苔'],
+      '西蓝花': ['西兰花'],
+      '绿花菜': ['西兰花'],
+      '洋葱头': ['洋葱'],
+      '圆葱': ['洋葱'],
+      '青菜秧': ['鸡毛菜'],
+      '小白菜': ['青菜', '鸡毛菜'],
+      '油麦菜': ['生菜'],
+      '对虾': ['基围虾'],
+      '白虾': ['基围虾'],
+      '虾': ['基围虾'],
+      '鲜虾': ['基围虾'],
+      '大虾': ['基围虾'],
+      '牛腩': ['牛腩'],
+      '腱子肉': ['腱子肉'],
+      '牛腱': ['腱子肉'],
+      '羊排': ['鲜羊肉'],
+      '羊肉卷': ['鲜羊肉'],
+      '生姜': ['生姜', '老姜', '嫩姜'],
+      '大蒜': ['蒜头']
+    };
+
+    // 获取便于老百姓辨识的简短通俗名称（区分四种鲜猪肉、牛肉各部位等）
+    function getFriendlyName(p) {
+      if (!p) return '';
+      if (p.name === '鲜猪肉') {
+        if (p.spec && p.spec.includes('肋条')) return '五花肉(肋条)';
+        if (p.spec && p.spec.includes('肋排')) return '排骨(肋排)';
+        if (p.spec && p.spec.includes('精瘦肉')) return '精瘦肉';
+        if (p.spec && p.spec.includes('后腿')) return '后腿肉';
+      }
+      if (p.name === '鲜牛肉') {
+        if (p.spec && p.spec.includes('牛腩')) return '牛腩(牛肉)';
+        if (p.spec && p.spec.includes('腱子')) return '牛腱(牛肉)';
+      }
+      if (p.name === '粳米') {
+        if (p.spec && p.spec.includes('袋装')) return '粳米(袋装)';
+        return '粳米(散装)';
+      }
+      return p.name;
+    }
+
+    // 智能关键词匹配：兼容官方名、规格、通俗别名与分类
+    function doesProductMatchKeyword(p, kw) {
+      if (!kw) return true;
+      const k = kw.toLowerCase();
+      const pName = (p.name || '').toLowerCase();
+      const pSpec = (p.spec || '').toLowerCase();
+      const pCat = (p.category || '').toLowerCase();
+      const pDisp = (p.display_name || '').toLowerCase();
+      const friendly = getFriendlyName(p).toLowerCase();
+
+      // 1. 名字、规格、展示名或通俗名直接包含
+      if (pName.includes(k) || pSpec.includes(k) || pDisp.includes(k) || friendly.includes(k)) {
+        return true;
+      }
+
+      // 2. 别名反查匹配
+      for (const [alias, targets] of Object.entries(PRODUCT_ALIASES)) {
+        if (alias.toLowerCase().includes(k) || k.includes(alias.toLowerCase())) {
+          const matchTarget = targets.some(t => 
+            pName.includes(t.toLowerCase()) || 
+            pSpec.includes(t.toLowerCase()) || 
+            friendly.includes(t.toLowerCase())
+          );
+          if (matchTarget) return true;
+        }
+      }
+
+      // 3. 分类词检索
+      if (['蔬菜', '肉禽蛋', '水产', '鱼虾', '水果', '粮油'].includes(k) && pCat.includes(k.replace('水产', '鱼虾'))) {
+        return true;
+      }
+
+      return false;
+    }
+
+    function renderProductChips() {
+      if (!gMarketData) return;
+      const container = document.getElementById('product-chips');
+      container.innerHTML = '';
+      const kw = document.getElementById('search-input').value.trim().toLowerCase();
+
+      const filtered = gMarketData.all_products.filter(p => {
+        let matchCat = true;
+        if (gCurrentCategory === '常买') {
+          matchCat = gFavorites.some(f => p.display_name.includes(f) || f.includes(p.name) || getFriendlyName(p).includes(f));
+        } else if (gCurrentCategory !== '全部') {
+          matchCat = p.category === gCurrentCategory;
+        }
+        return matchCat && doesProductMatchKeyword(p, kw);
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<span class="text-xs text-slate-400 py-2">未找到匹配菜品（支持搜索五花肉、排骨、番茄、包菜等通俗叫法）</span>';
+        return;
+      }
+
+      filtered.forEach(p => {
+        const isSelected = gCurrentProduct && gCurrentProduct.display_name === p.display_name;
+        const chip = document.createElement('button');
+        chip.className = `text-xs px-2.5 py-1.5 rounded-xl border transition flex items-center space-x-1 ${
+          isSelected 
+            ? 'bg-emerald-600 text-white border-emerald-600 font-bold shadow-sm' 
+            : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
+        }`;
+        const title = getFriendlyName(p);
+        chip.innerHTML = `<span>${title}</span><span class="opacity-75 text-[10px]">¥${p.city_avg.toFixed(1)}</span>`;
+        chip.onclick = () => selectProduct(p);
+        container.appendChild(chip);
+      });
+    }
+
+    function selectProduct(prod) {
+      gCurrentProduct = prod;
+      renderProductChips();
+
+      // 基准均价优先采用普通菜市场零售均价，若无则使用全市均价
+      const marketBenchmark = prod.market_avg && prod.market_avg > 0 ? prod.market_avg : prod.city_avg;
+      const friendlyTitle = getFriendlyName(prod);
+
+      document.getElementById('calc-name').innerText = (friendlyTitle !== prod.name) ? `${friendlyTitle} · ${prod.name}` : prod.name;
+      document.getElementById('calc-category').innerText = prod.category;
+      document.getElementById('calc-spec').innerText = `规格：${prod.spec || '普通标准'}`;
+      document.getElementById('calc-benchmark').innerText = marketBenchmark.toFixed(2);
+      document.getElementById('calc-unit').innerText = prod.unit.replace('元/500克', '元/斤');
+
+      // 填入商超、全市大盘与区间
+      const smPriceEl = document.getElementById('calc-supermarket');
+      if (prod.supermarket_avg && prod.supermarket_avg > 0) {
+        smPriceEl.innerText = `${prod.supermarket_avg.toFixed(2)}元`;
+      } else {
+        smPriceEl.innerText = '-';
+      }
+
+      document.getElementById('calc-city-avg').innerText = `${prod.city_avg.toFixed(2)}元`;
+      document.getElementById('calc-range').innerText = `${prod.min_price.toFixed(1)} ~ ${prod.max_price.toFixed(1)}`;
+
+      onPriceBarChanged();
+    }
+
+    // 智能解析粘贴或输入的规格文本 (例如: "24.8元，1.8kg"、"17/9元，2L"、"12.9元 600g")
+    function parseSmartPkg(raw) {
+      if (!raw) return null;
+      let text = String(raw).trim();
+      text = text.replace(/，/g, ',').replace(/￥/g, '¥').replace(/（/g, '(').replace(/）/g, ')');
+      // 处理手机误把小数点按成斜杠的情况 (如 17/9元 或 17/9)
+      text = text.replace(/(\d+)\/(\d+)\s*元?/g, '$1.$2');
+
+      // 匹配数量与规格单位
+      const unitRegex = /([0-9.]+)\s*(kg|g|斤|l|ml|公斤|千克|升|毫升)/i;
+      const unitMatch = text.match(unitRegex);
+      if (!unitMatch) return null;
+
+      const qty = parseFloat(unitMatch[1]);
+      const rawUnit = unitMatch[2];
+
+      // 剔除已识别的规格，从剩余部分提取价格
+      const restText = text.replace(unitMatch[0], ' ');
+      let price = null;
+      const priceWithUnitMatch = restText.match(/(?:¥\s*([0-9.]+)|([0-9.]+)\s*元)/);
+      if (priceWithUnitMatch) {
+        price = parseFloat(priceWithUnitMatch[1] || priceWithUnitMatch[2]);
+      } else {
+        const numMatch = restText.match(/([0-9.]+)/);
+        if (numMatch) {
+          price = parseFloat(numMatch[1]);
+        }
+      }
+
+      if (price && qty && price > 0 && qty > 0) {
+        let u = rawUnit.toLowerCase();
+        if (u === '公斤' || u === '千克') u = 'kg';
+        if (u === '克') u = 'g';
+        if (u === '升' || u === 'l') u = 'L';
+        if (u === '毫升') u = 'ml';
+        return { price, qty, unit: u };
+      }
+      return null;
+    }
+
+    // 解析价格输入框的内容（支持纯数字、元角毛分，如 4.5、4.5元、4元5角、4块5、24.8、17/9）
+    function parsePriceValue(raw) {
+      if (!raw) return null;
+      let text = String(raw).trim();
+      text = text.replace(/，/g, ',').replace(/￥/g, '¥');
+
+      // 如果用户直接粘贴了完整格式如 "24.8元 1.8kg" 或 "17/9元 2L"，智能拆分到前后两格
+      const smartPkg = parseSmartPkg(text);
+      if (smartPkg) {
+        const priceInput = document.getElementById('input-price-val');
+        const qtyInput = document.getElementById('input-qty-val');
+        const unitSelect = document.getElementById('select-unit-val');
+        if (priceInput) priceInput.value = smartPkg.price;
+        if (qtyInput) qtyInput.value = smartPkg.qty;
+        if (unitSelect) unitSelect.value = smartPkg.unit;
+        return smartPkg.price;
+      }
+
+      // 处理形如 "4元5角"、"4块5毛"、"4块5"、"4元5"
+      const yuanJiao = text.match(/^([0-9]+)\s*(?:元|块)\s*([0-9])\s*(?:角|毛)?$/);
+      if (yuanJiao) {
+        return parseFloat(yuanJiao[1] + '.' + yuanJiao[2]);
+      }
+
+      // 处理手机键盘误把小数点按成斜杠的情况 (如 17/9 或 17/9元)
+      text = text.replace(/(\d+)\/(\d+)\s*元?/g, '$1.$2');
+
+      // 移除非数字符号
+      text = text.replace(/[¥元块/]/g, '').trim();
+      const num = parseFloat(text);
+      return (!isNaN(num) && num > 0) ? num : null;
+    }
+
+    // 双格核心联动：[ 价格 ] 元(下拉) 与 [ 分量 ] kg(下拉)
+    function onPriceBarChanged() {
+      const priceInput = document.getElementById('input-price-val');
+      const currencySelect = document.getElementById('select-currency-val');
+      const qtyInput = document.getElementById('input-qty-val');
+      const unitSelect = document.getElementById('select-unit-val');
+      const resCard = document.getElementById('result-card');
+      const banner = document.getElementById('pkg-convert-banner');
+
+      if (!priceInput || !gCurrentProduct) {
+        if (resCard) resCard.classList.add('hidden');
+        if (banner) banner.classList.add('hidden');
+        gResolvedUnitPrice = 0;
+        return;
+      }
+
+      const rawPrice = parseFloat(priceInput.value);
+      const currency = currencySelect ? currencySelect.value : 'yuan';
+      const rawQty = parseFloat(qtyInput ? qtyInput.value : '1');
+      const unit = unitSelect ? unitSelect.value : 'jin';
+
+      if (isNaN(rawPrice) || rawPrice <= 0 || isNaN(rawQty) || rawQty <= 0) {
+        if (resCard) resCard.classList.add('hidden');
+        if (banner) banner.classList.add('hidden');
+        gResolvedUnitPrice = 0;
+        return;
+      }
+
+      // 1. 币种折合为“元”
+      let priceInYuan = rawPrice;
+      if (currency === 'jiao') {
+        priceInYuan = rawPrice * 0.1;
+      } else if (currency === 'fen') {
+        priceInYuan = rawPrice * 0.01;
+      }
+
+      // 2. 分量折合为“斤”（500g 标准基准）
+      let jin = 0;
+      let specDesc = '';
+      if (unit === 'jin') {
+        jin = rawQty;
+        specDesc = `${rawQty}斤`;
+      } else if (unit === 'kg') {
+        jin = rawQty * 2;
+        specDesc = `${rawQty}kg = ${Number(jin.toFixed(2))}斤`;
+      } else if (unit === 'g') {
+        jin = rawQty / 500;
+        specDesc = `${rawQty}g = ${Number(jin.toFixed(2))}斤`;
+      } else if (unit === 'L') {
+        jin = rawQty * 2;
+        specDesc = `${rawQty}L ≈ ${Number(jin.toFixed(2))}斤`;
+      } else if (unit === 'ml') {
+        jin = rawQty / 500;
+        specDesc = `${rawQty}ml ≈ ${Number(jin.toFixed(2))}斤`;
+      }
+
+      if (jin <= 0) {
+        if (resCard) resCard.classList.add('hidden');
+        if (banner) banner.classList.add('hidden');
+        gResolvedUnitPrice = 0;
+        return;
+      }
+
+      const unitPricePerJin = Math.round(priceInYuan / jin * 100 + 1e-5) / 100;
+      gResolvedUnitPrice = unitPricePerJin;
+
+      // 3. 判定是否为标准的“元/斤”
+      const isDefault = (currency === 'yuan' && unit === 'jin' && rawQty === 1);
+      if (!isDefault) {
+        document.getElementById('pkg-banner-spec').innerText = specDesc;
+        let curLabel = `¥${rawPrice}`;
+        if (currency === 'jiao') curLabel = `${rawPrice}角 (¥${priceInYuan.toFixed(2)})`;
+        if (currency === 'fen') curLabel = `${rawPrice}分 (¥${priceInYuan.toFixed(2)})`;
+        document.getElementById('pkg-banner-formula').innerText = `${curLabel} ÷ ${Number(jin.toFixed(2))}斤`;
+        document.getElementById('pkg-banner-price').innerText = unitPricePerJin.toFixed(2);
+        if (banner) banner.classList.remove('hidden');
+      } else {
+        if (banner) banner.classList.add('hidden');
+      }
+
+      // 4. 执行即时比价逻辑
+      evaluatePriceBenchmark(unitPricePerJin);
+    }
+
+    // 兼容别名
+    function onPriceChanged() {
+      onPriceBarChanged();
+    }
+
+    // 纯客户端即时比价算法（支持菜场均价与商超上限双重锚点）
+    function evaluatePriceBenchmark(userPrice) {
+      const resCard = document.getElementById('result-card');
+      if (!resCard || !gCurrentProduct || userPrice <= 0) return;
+
+      // 基准线：菜市场均价（普通摊位参考）
+      const benchmark = gCurrentProduct.market_avg && gCurrentProduct.market_avg > 0 
+        ? gCurrentProduct.market_avg 
+        : gCurrentProduct.city_avg;
+
+      const diff = userPrice - benchmark;
+      const diffPct = benchmark > 0 ? (diff / benchmark * 100.0) : 0;
+
+      let status, statusText, icon, advice, cardClass, pctClass;
+
+      if (diffPct <= -15.0) {
+        status = 'CHEAP';
+        statusText = '超值实惠';
+        icon = '🔥';
+        advice = `比菜市场均价便宜了 ${Math.abs(diffPct).toFixed(1)}%！价格非常实惠，新鲜度若良好建议直接入手。`;
+        cardClass = 'rounded-xl p-4 transition-all duration-300 space-y-2 border bg-emerald-50 border-emerald-300 text-emerald-900';
+        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-emerald-200 text-emerald-800';
+      } else if (diffPct <= 10.0) {
+        status = 'FAIR';
+        statusText = '价格公道';
+        icon = '✅';
+        advice = `与菜市场均价相差不大（偏差 ${diffPct >= 0 ? '+' : ''}${diffPct.toFixed(1)}%），处于正常合理的菜场交易区间。`;
+        cardClass = 'rounded-xl p-4 transition-all duration-300 space-y-2 border bg-blue-50 border-blue-300 text-blue-900';
+        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-blue-200 text-blue-800';
+      } else if (diffPct <= 30.0) {
+        status = 'EXPENSIVE';
+        statusText = '略微偏贵';
+        icon = '⚠️';
+        advice = `比菜场均价高出 ${diffPct.toFixed(1)}%（贵了约 ${diff.toFixed(2)} 元/斤）。建议挑拣成色好的，或尝试与摊主抹零还价。`;
+        cardClass = 'rounded-xl p-4 transition-all duration-300 space-y-2 border bg-amber-50 border-amber-300 text-amber-900';
+        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-amber-200 text-amber-800';
+      } else {
+        status = 'OVERPRICED';
+        statusText = '明显偏贵';
+        icon = '🛑';
+        advice = `比菜场均价高出了整整 ${diffPct.toFixed(1)}%（高出约 ${diff.toFixed(2)} 元/斤）！要价偏高，建议换摊位或还价。`;
+        cardClass = 'rounded-xl p-4 transition-all duration-300 space-y-2 border bg-rose-50 border-rose-300 text-rose-900';
+        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-rose-200 text-rose-800';
+      }
+
+      // 叠加商超上限对比提示
+      const smAvg = gCurrentProduct.supermarket_avg;
+      if (smAvg && smAvg > 0) {
+        if (userPrice > smAvg * 1.1) {
+          const smDiffPct = ((userPrice - smAvg) / smAvg * 100.0).toFixed(0);
+          advice += `<br><span class="text-blue-700 font-semibold">🏬 商超比对：</span>当前要价比大润发/世纪联华等商超均价（¥${smAvg.toFixed(2)}/斤）还贵了 <span class="underline font-bold">+${smDiffPct}%</span>，去超市买可能更划算！`;
+        } else if (userPrice <= smAvg * 0.9) {
+          const smDiffPct = ((smAvg - userPrice) / smAvg * 100.0).toFixed(0);
+          advice += `<br><span class="text-emerald-700 font-semibold">🏬 商超比对：</span>相比大润发/世纪联华等大型商超均价（¥${smAvg.toFixed(2)}/斤），当前价格便宜了 <span class="underline font-bold">${smDiffPct}%</span>，性价比出众！`;
+        }
+      }
+
+      resCard.className = cardClass;
+      resCard.classList.remove('hidden');
+
+      document.getElementById('result-icon').innerText = icon;
+      document.getElementById('result-status').innerText = statusText;
+      document.getElementById('result-advice').innerHTML = advice;
+
+      const sign = diff >= 0 ? '+' : '';
+      const signWord = diff >= 0 ? '贵了' : '便宜了';
+      const pctEl = document.getElementById('result-pct');
+      pctEl.className = pctClass;
+      pctEl.innerText = `${sign}${diffPct.toFixed(1)}%`;
+      document.getElementById('result-diff').innerText = `比菜场均价 ${signWord} ${Math.abs(diff).toFixed(2)} 元/斤`;
+    }
+
+    function adjustPrice(delta) {
+      const input = document.getElementById('input-price-val');
+      let current = parseFloat(input.value) || (gCurrentProduct ? (gCurrentProduct.market_avg || gCurrentProduct.city_avg) : 0);
+      current = Math.max(0.1, current + delta);
+      input.value = current.toFixed(1);
+      onPriceBarChanged();
+    }
+
+    function setQuickBenchmark() {
+      if (!gCurrentProduct) return;
+      const benchmark = gCurrentProduct.market_avg && gCurrentProduct.market_avg > 0 
+        ? gCurrentProduct.market_avg 
+        : gCurrentProduct.city_avg;
+      document.getElementById('input-price-val').value = benchmark.toFixed(1);
+      document.getElementById('select-currency-val').value = 'yuan';
+      document.getElementById('input-qty-val').value = 1;
+      document.getElementById('select-unit-val').value = 'jin';
+      onPriceBarChanged();
+    }
+
+    function clearPriceBar() {
+      document.getElementById('input-price-val').value = '';
+      document.getElementById('select-currency-val').value = 'yuan';
+      document.getElementById('input-qty-val').value = 1;
+      document.getElementById('select-unit-val').value = 'jin';
+      gResolvedUnitPrice = 0;
+      onPriceBarChanged();
+    }
+
+    function setQuickSpec(qty, unit) {
+      document.getElementById('input-qty-val').value = qty;
+      document.getElementById('select-unit-val').value = unit;
+      onPriceBarChanged();
+    }
+
+    // 渲染常买设置页面
+    function renderFavoritesTab() {
+      if (!gMarketData) return;
+      const container = document.getElementById('favorites-container');
+      container.innerHTML = '';
+      const favSet = new Set(gFavorites);
+
+      updateFavCount();
+
+      for (const [cat, prods] of Object.entries(gMarketData.categories)) {
+        const catBox = document.createElement('div');
+        catBox.className = 'space-y-2';
+
+        const catTitle = document.createElement('h3');
+        catTitle.className = 'text-xs font-bold text-slate-500 uppercase tracking-wider';
+        catTitle.innerText = cat;
+        catBox.appendChild(catTitle);
+
+        const grid = document.createElement('div');
+        grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 text-xs';
+
+        prods.forEach(p => {
+          const isChecked = favSet.has(p.display_name) || favSet.has(p.name);
+          const label = document.createElement('label');
+          label.className = `flex items-center space-x-2 p-2 rounded-xl border transition cursor-pointer ${
+            isChecked ? 'bg-emerald-50/80 border-emerald-300 text-emerald-900' : 'bg-slate-50 border-slate-200 text-slate-700'
+          }`;
+
+          const chk = document.createElement('input');
+          chk.type = 'checkbox';
+          chk.value = p.display_name;
+          chk.checked = isChecked;
+          chk.className = 'fav-checkbox text-emerald-600 rounded focus:ring-emerald-500';
+          chk.onchange = () => {
+            if (chk.checked) {
+              label.classList.add('bg-emerald-50/80', 'border-emerald-300', 'text-emerald-900');
+              label.classList.remove('bg-slate-50', 'border-slate-200', 'text-slate-700');
+            } else {
+              label.classList.remove('bg-emerald-50/80', 'border-emerald-300', 'text-emerald-900');
+              label.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-700');
+            }
+            updateFavCount();
+          };
+
+          const textSpan = document.createElement('span');
+          textSpan.className = 'truncate font-medium';
+          const friendly = getFriendlyName(p);
+          textSpan.innerText = (friendly && friendly !== p.name) ? `${friendly} · ${p.name}` : `${p.name}${p.spec ? '(' + p.spec + ')' : ''}`;
+
+          label.appendChild(chk);
+          label.appendChild(textSpan);
+          grid.appendChild(label);
+        });
+
+        catBox.appendChild(grid);
+        container.appendChild(catBox);
+      }
+    }
+
+    function updateFavCount() {
+      const checks = document.querySelectorAll('.fav-checkbox:checked');
+      document.getElementById('fav-count-badge').innerText = `已选 ${checks.length} 项`;
+    }
+
+    function selectAllFavorites(status) {
+      document.querySelectorAll('.fav-checkbox').forEach(chk => {
+        chk.checked = status;
+        chk.dispatchEvent(new Event('change'));
+      });
+    }
+
+    function selectPopularDefaults() {
+      const defaults = ["青菜", "鸡毛菜", "西红柿", "黄瓜", "土豆", "大白菜", "卷心菜", "鲜猪肉(精瘦肉)", "鲜猪肉(肋排)", "鲜鸡蛋", "鲜牛肉", "基围虾"];
+      document.querySelectorAll('.fav-checkbox').forEach(chk => {
+        chk.checked = defaults.some(d => chk.value.includes(d) || d.includes(chk.value));
+        chk.dispatchEvent(new Event('change'));
+      });
+      showToast('已恢复常用推荐食材', '🥬');
+    }
+
+    function saveFavorites() {
+      const selected = Array.from(document.querySelectorAll('.fav-checkbox:checked')).map(c => c.value);
+      gFavorites = selected;
+      localStorage.setItem(STORAGE_KEY_FAVS, JSON.stringify(selected));
+      showToast(`已保存 ${selected.length} 种常买菜品！`, '💾');
+      renderProductChips();
+    }
+
+    // 渲染今日全量大盘
+    function renderAllProductsTable() {
+      if (!gMarketData) return;
+      const tbody = document.getElementById('all-products-tbody');
+      tbody.innerHTML = '';
+
+      gMarketData.all_products.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition';
+        const marketAvg = p.market_avg && p.market_avg > 0 ? `¥${p.market_avg.toFixed(2)}` : `¥${p.city_avg.toFixed(2)}`;
+        const superAvg = p.supermarket_avg && p.supermarket_avg > 0 ? `¥${p.supermarket_avg.toFixed(2)}` : '-';
+        const friendly = getFriendlyName(p);
+        const aliasTag = (friendly && friendly !== p.name) ? `<span class="text-[10px] font-normal text-emerald-700 bg-emerald-100 px-1.5 py-0.5 rounded ml-1">${friendly}</span>` : '';
+        tr.innerHTML = `
+          <td class="py-3 px-1 font-medium text-slate-500">${p.category}</td>
+          <td class="py-3 px-1 font-bold text-slate-800">${p.display_name}${aliasTag}</td>
+          <td class="py-3 px-1 text-right font-black text-emerald-600">${marketAvg}</td>
+          <td class="py-3 px-1 text-right font-extrabold text-blue-600">${superAvg}</td>
+          <td class="py-3 px-1 text-right text-slate-500">${p.min_price.toFixed(1)} ~ ${p.max_price.toFixed(1)}</td>
+          <td class="py-3 px-1 text-center">
+            <button class="text-xs text-emerald-600 hover:text-emerald-800 font-bold px-2.5 py-1 bg-emerald-50 rounded-lg active:scale-95 transition" onclick='quickCompareFromTable(${JSON.stringify(p)})'>比价</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function quickCompareFromTable(prod) {
+      switchTab('compare');
+      selectProduct(prod);
+      window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function showToast(msg, icon = 'ℹ️') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-icon').innerText = icon;
+      document.getElementById('toast-msg').innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
