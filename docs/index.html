@@ -86,7 +86,8 @@
             <div class="relative">
               <input type="text" id="search-input" placeholder="输入搜索：五花肉、排骨、青菜、番茄、牛腩、鸡蛋..." 
                      oninput="onSearchInput()" 
-                     class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+                     class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+              <button type="button" id="search-clear-btn" onclick="clearMainSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs px-1">✕</button>
             </div>
 
             <!-- 分类快速筛选胶囊 -->
@@ -302,6 +303,14 @@
           <span id="fav-count-badge" class="text-xs lg:text-sm bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full font-bold">已选 0 项</span>
         </div>
 
+        <!-- 搜索输入框 -->
+        <div class="relative">
+          <input type="text" id="fav-search-input" placeholder="输入搜索常买食材：五花肉、排骨、青菜、番茄、牛腩..." 
+                 oninput="onFavSearchInput()" 
+                 class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 pr-8 text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+          <button type="button" id="fav-search-clear-btn" onclick="clearFavSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs px-1">✕</button>
+        </div>
+
         <div class="flex space-x-3 pt-1 text-xs lg:text-sm">
           <button onclick="selectAllFavorites(true)" class="text-emerald-600 font-medium hover:underline">全选</button>
           <span class="text-slate-300">|</span>
@@ -324,12 +333,20 @@
     <!-- TAB 3: 今日全量大盘 (自适应宽屏表格) -->
     <section id="tab-all" class="hidden space-y-4">
       <div class="bg-white rounded-2xl p-4 lg:p-6 shadow-sm border border-slate-100 space-y-4">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between flex-wrap gap-2">
           <div>
-            <h2 class="text-sm lg:text-base font-bold text-slate-900">全上海 64 种食材官方零售均价</h2>
-            <p class="text-xs text-slate-400">采样覆盖全市 16 区 39 家农贸市场与 17 家大型商超</p>
+            <h2 class="text-sm lg:text-base font-bold text-slate-900">全上海食材行情大盘</h2>
+            <p class="text-xs text-slate-400">覆盖全市 16 区 39 家农贸市场与 17 家大型商超采集点</p>
           </div>
           <span id="all-count-badge" class="text-xs lg:text-sm bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium">共 64 种</span>
+        </div>
+
+        <!-- 搜索输入框 -->
+        <div class="relative">
+          <input type="text" id="all-search-input" placeholder="输入搜索大盘食材：五花肉、排骨、青菜、番茄、牛腩..." 
+                 oninput="onAllSearchInput()" 
+                 class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 pr-8 text-xs lg:text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition">
+          <button type="button" id="all-search-clear-btn" onclick="clearAllSearch()" class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 text-xs px-1">✕</button>
         </div>
 
         <div class="overflow-x-auto">
@@ -799,6 +816,23 @@
     }
 
     function onSearchInput() {
+      const input = document.getElementById('search-input');
+      const clearBtn = document.getElementById('search-clear-btn');
+      if (clearBtn) {
+        if (input && input.value.trim().length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      }
+      renderProductChips();
+    }
+
+    function clearMainSearch() {
+      const input = document.getElementById('search-input');
+      if (input) input.value = '';
+      const clearBtn = document.getElementById('search-clear-btn');
+      if (clearBtn) clearBtn.classList.add('hidden');
       renderProductChips();
     }
 
@@ -1275,28 +1309,58 @@
       onPriceBarChanged();
     }
 
-    // 渲染常买设置页面
+    // ==================== 我的常买管理与搜索 ====================
+    function onFavSearchInput() {
+      const input = document.getElementById('fav-search-input');
+      const clearBtn = document.getElementById('fav-search-clear-btn');
+      if (clearBtn) {
+        if (input && input.value.trim().length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      }
+      renderFavoritesTab();
+    }
+
+    function clearFavSearch() {
+      const input = document.getElementById('fav-search-input');
+      if (input) input.value = '';
+      const clearBtn = document.getElementById('fav-search-clear-btn');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderFavoritesTab();
+    }
+
+    // 渲染常买设置页面（支持按品名/通俗别名搜索筛选，保持选中状态无缝同步）
     function renderFavoritesTab() {
       if (!gMarketData) return;
       const container = document.getElementById('favorites-container');
       container.innerHTML = '';
       const favSet = new Set(gFavorites);
+      const kw = (document.getElementById('fav-search-input')?.value || '').trim().toLowerCase();
 
       updateFavCount();
 
+      let totalMatching = 0;
+
       for (const [cat, prods] of Object.entries(gMarketData.categories)) {
+        const matchingProds = prods.filter(p => doesProductMatchKeyword(p, kw));
+        if (matchingProds.length === 0) continue;
+
+        totalMatching += matchingProds.length;
+
         const catBox = document.createElement('div');
         catBox.className = 'space-y-2';
 
         const catTitle = document.createElement('h3');
-        catTitle.className = 'text-xs font-bold text-slate-500 uppercase tracking-wider';
-        catTitle.innerText = cat;
+        catTitle.className = 'text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between';
+        catTitle.innerHTML = `<span>${cat}</span><span class="text-[10px] text-slate-400 font-normal">(${matchingProds.length} 种)</span>`;
         catBox.appendChild(catTitle);
 
         const grid = document.createElement('div');
         grid.className = 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2.5 text-xs';
 
-        prods.forEach(p => {
+        matchingProds.forEach(p => {
           const isChecked = favSet.has(p.display_name) || favSet.has(p.name);
           const label = document.createElement('label');
           label.className = `flex items-center space-x-2 p-2 rounded-xl border transition cursor-pointer ${
@@ -1312,9 +1376,11 @@
             if (chk.checked) {
               label.classList.add('bg-emerald-50/80', 'border-emerald-300', 'text-emerald-900');
               label.classList.remove('bg-slate-50', 'border-slate-200', 'text-slate-700');
+              if (!gFavorites.includes(p.display_name)) gFavorites.push(p.display_name);
             } else {
               label.classList.remove('bg-emerald-50/80', 'border-emerald-300', 'text-emerald-900');
               label.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-700');
+              gFavorites = gFavorites.filter(v => v !== p.display_name && v !== p.name);
             }
             updateFavCount();
           };
@@ -1322,7 +1388,8 @@
           const textSpan = document.createElement('span');
           textSpan.className = 'truncate font-medium';
           const friendly = getFriendlyName(p);
-          textSpan.innerText = (friendly && friendly !== p.name) ? `${friendly} · ${p.name}` : `${p.name}${p.spec ? '(' + p.spec + ')' : ''}`;
+          const customTag = p.is_custom ? '<span class="text-amber-500 text-[10px] mr-1 font-bold">✨自建</span>' : '';
+          textSpan.innerHTML = `${customTag}${(friendly && friendly !== p.name) ? `${friendly} · ${p.name}` : `${p.name}${p.spec ? '(' + p.spec + ')' : ''}`}`;
 
           label.appendChild(chk);
           label.appendChild(textSpan);
@@ -1332,44 +1399,119 @@
         catBox.appendChild(grid);
         container.appendChild(catBox);
       }
+
+      if (totalMatching === 0) {
+        container.innerHTML = `
+          <div class="text-center py-10 space-y-1.5 text-slate-400">
+            <div class="text-2xl">🔍</div>
+            <p class="text-xs font-medium">未找到符合「${kw}」的常买食材</p>
+            <p class="text-[10px] text-slate-300">支持搜索五花肉、排骨、番茄、牛腩等通俗别名</p>
+          </div>
+        `;
+      }
     }
 
     function updateFavCount() {
-      const checks = document.querySelectorAll('.fav-checkbox:checked');
-      document.getElementById('fav-count-badge').innerText = `已选 ${checks.length} 项`;
+      const badge = document.getElementById('fav-count-badge');
+      if (badge) {
+        badge.innerText = `已选 ${gFavorites.length} 项`;
+      }
     }
 
     function selectAllFavorites(status) {
-      document.querySelectorAll('.fav-checkbox').forEach(chk => {
-        chk.checked = status;
-        chk.dispatchEvent(new Event('change'));
-      });
+      if (!gMarketData) return;
+      const kw = (document.getElementById('fav-search-input')?.value || '').trim().toLowerCase();
+      if (status) {
+        const targetProds = kw ? gMarketData.all_products.filter(p => doesProductMatchKeyword(p, kw)) : gMarketData.all_products;
+        targetProds.forEach(p => {
+          if (!gFavorites.includes(p.display_name)) gFavorites.push(p.display_name);
+        });
+      } else {
+        if (kw) {
+          const targetNames = new Set(gMarketData.all_products.filter(p => doesProductMatchKeyword(p, kw)).map(p => p.display_name));
+          gFavorites = gFavorites.filter(name => !targetNames.has(name));
+        } else {
+          gFavorites = [];
+        }
+      }
+      renderFavoritesTab();
     }
 
     function selectPopularDefaults() {
-      const defaults = ["青菜", "鸡毛菜", "西红柿", "黄瓜", "土豆", "大白菜", "卷心菜", "鲜猪肉(精瘦肉)", "鲜猪肉(肋排)", "鲜鸡蛋", "鲜牛肉", "基围虾"];
-      document.querySelectorAll('.fav-checkbox').forEach(chk => {
-        chk.checked = defaults.some(d => chk.value.includes(d) || d.includes(chk.value));
-        chk.dispatchEvent(new Event('change'));
-      });
+      const defaults = ["青菜", "鸡毛菜", "西红柿", "黄瓜", "土豆", "大白菜", "卷心菜", "鲜猪肉(精瘦肉)", "鲜猪肉(肋条肉)", "鲜猪肉(肋排)", "鲜鸡蛋", "鲜牛肉", "基围虾"];
+      gFavorites = [];
+      if (gMarketData) {
+        gMarketData.all_products.forEach(p => {
+          if (defaults.some(d => p.display_name.includes(d) || d.includes(p.name) || (p.spec && d.includes(p.spec)))) {
+            if (!gFavorites.includes(p.display_name)) gFavorites.push(p.display_name);
+          }
+        });
+      }
+      renderFavoritesTab();
       showToast('已恢复常用推荐食材', '🥬');
     }
 
     function saveFavorites() {
-      const selected = Array.from(document.querySelectorAll('.fav-checkbox:checked')).map(c => c.value);
-      gFavorites = selected;
-      localStorage.setItem(STORAGE_KEY_FAVS, JSON.stringify(selected));
-      showToast(`已保存 ${selected.length} 种常买菜品！`, '💾');
+      localStorage.setItem(STORAGE_KEY_FAVS, JSON.stringify(gFavorites));
+      showToast(`已保存 ${gFavorites.length} 种常买菜品！`, '💾');
       renderProductChips();
     }
 
-    // 渲染今日全量大盘
+    // ==================== 今日大盘管理与搜索 ====================
+    function onAllSearchInput() {
+      const input = document.getElementById('all-search-input');
+      const clearBtn = document.getElementById('all-search-clear-btn');
+      if (clearBtn) {
+        if (input && input.value.trim().length > 0) {
+          clearBtn.classList.remove('hidden');
+        } else {
+          clearBtn.classList.add('hidden');
+        }
+      }
+      renderAllProductsTable();
+    }
+
+    function clearAllSearch() {
+      const input = document.getElementById('all-search-input');
+      if (input) input.value = '';
+      const clearBtn = document.getElementById('all-search-clear-btn');
+      if (clearBtn) clearBtn.classList.add('hidden');
+      renderAllProductsTable();
+    }
+
+    // 渲染今日全量大盘（支持实时别名搜索与极值渠道浮层查看）
     function renderAllProductsTable() {
       if (!gMarketData) return;
       const tbody = document.getElementById('all-products-tbody');
       tbody.innerHTML = '';
 
-      gMarketData.all_products.forEach((p, idx) => {
+      const kw = (document.getElementById('all-search-input')?.value || '').trim().toLowerCase();
+      const allProds = gMarketData.all_products;
+      const filtered = allProds.filter(p => doesProductMatchKeyword(p, kw));
+
+      // 动态更新大盘计数徽章
+      const countBadge = document.getElementById('all-count-badge');
+      if (countBadge) {
+        countBadge.innerText = kw 
+          ? `匹配 ${filtered.length} 种 / 共 ${allProds.length} 种` 
+          : `共 ${allProds.length} 种`;
+      }
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" class="py-12 text-center text-slate-400 text-xs">
+              <div class="text-2xl mb-1.5">🔍</div>
+              <div class="font-medium">未搜索到符合「${kw}」的食材行情</div>
+              <div class="text-[10px] text-slate-300 mt-1">支持搜索五花肉、排骨、番茄、牛腩或类别等</div>
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      filtered.forEach((p) => {
+        const origIdx = allProds.indexOf(p);
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 transition';
         const marketAvg = p.market_avg && p.market_avg > 0 ? `¥${p.market_avg.toFixed(2)}` : `¥${p.city_avg.toFixed(2)}`;
@@ -1389,7 +1531,7 @@
           <td class="py-3 px-1 text-right font-extrabold text-blue-600">${superAvg}</td>
           <td class="py-3 px-1 text-right text-slate-500 cursor-help" title="${rangeTitle}">${p.min_price.toFixed(1)} ~ ${p.max_price.toFixed(1)}</td>
           <td class="py-3 px-1 text-center">
-            <button class="text-xs text-emerald-600 hover:text-emerald-800 font-bold px-2.5 py-1 bg-emerald-50 rounded-lg active:scale-95 transition" onclick="quickCompareByIndex(${idx})">比价</button>
+            <button class="text-xs text-emerald-600 hover:text-emerald-800 font-bold px-2.5 py-1 bg-emerald-50 rounded-lg active:scale-95 transition" onclick="quickCompareByIndex(${origIdx})">比价</button>
           </td>
         `;
         tbody.appendChild(tr);
