@@ -38,11 +38,17 @@
           <p id="sub-header" class="text-[11px] lg:text-xs text-emerald-100">正在同步上海市发改委菜价...</p>
         </div>
       </div>
-      <div class="flex items-center space-x-2">
-        <!-- 离线缓存状态徽标 -->
-        <div id="status-badge" class="text-[10px] lg:text-xs bg-emerald-700/90 text-emerald-100 px-2.5 py-1 rounded-full flex items-center space-x-1">
-          <span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
-          <span>在线就绪</span>
+      <div class="flex items-center space-x-1.5 sm:space-x-2">
+        <!-- 一键修复按钮 -->
+        <button onclick="openRepairModal()" title="数据源时效自检与一键修复"
+                class="text-[10px] lg:text-xs bg-white/20 hover:bg-white/30 active:scale-95 text-white font-bold px-2.5 py-1 rounded-full flex items-center space-x-1 transition backdrop-blur-xs shadow-2xs cursor-pointer">
+          <span>🛠️</span>
+          <span>一键修复</span>
+        </button>
+        <!-- 状态徽标 -->
+        <div id="status-badge" onclick="openRepairModal()" class="cursor-pointer text-[10px] lg:text-xs bg-emerald-700/90 hover:bg-emerald-800 text-emerald-100 px-2.5 py-1 rounded-full flex items-center space-x-1 transition">
+          <span id="status-dot" class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span>
+          <span id="status-text">在线就绪</span>
         </div>
       </div>
     </div>
@@ -475,6 +481,100 @@
     </div>
   </div>
 
+  <!-- 数据源体检与一键修复中心弹窗 -->
+  <div id="repair-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-5 lg:p-6 max-w-md w-full shadow-2xl border border-slate-100 space-y-4 max-h-[90vh] overflow-y-auto no-scrollbar">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🛠️</span>
+          <h3 class="text-base font-bold text-slate-800">数据源时效体检与一键修复</h3>
+        </div>
+        <button onclick="closeRepairModal()" class="text-slate-400 hover:text-slate-600 p-1 text-lg">✕</button>
+      </div>
+
+      <!-- 总体状态概览卡片 -->
+      <div id="repair-overall-card" class="bg-emerald-50/80 border border-emerald-200 rounded-2xl p-3.5 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-bold text-emerald-900 flex items-center space-x-1.5">
+            <span id="repair-status-dot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span id="repair-status-title">多源数据运行正常</span>
+          </span>
+          <span id="repair-date-badge" class="text-[10px] bg-emerald-200/80 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full">采价: 2026-09-11</span>
+        </div>
+        <p id="repair-status-desc" class="text-[11px] text-emerald-800/90 leading-relaxed">
+          已融合上海市发改委官方采样、京东到家实体商超及本地生鲜电商数据，全量监测食材已扩充至 74 种。
+        </p>
+      </div>
+
+      <!-- 三大核心数据源健康体检列表 -->
+      <div class="space-y-2 text-xs">
+        <label class="block font-bold text-slate-500 uppercase tracking-wider text-[11px]">上海本地数据源监控通道</label>
+        
+        <!-- 通道 1: 发改委官方价格通报 -->
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-between">
+          <div class="space-y-0.5">
+            <div class="font-bold text-slate-800 flex items-center space-x-1">
+              <span>🏛️</span>
+              <span>上海市发改委官方价格监测</span>
+            </div>
+            <p class="text-[10px] text-slate-400">覆盖全市 16 区 39 家农贸市场与 32 家商超采样</p>
+          </div>
+          <div class="text-right shrink-0 ml-2">
+            <span id="source-drc-count" class="inline-block text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-md">64 种食材</span>
+            <span class="text-[9px] text-emerald-600 block mt-0.5 font-medium">● 官方基准</span>
+          </div>
+        </div>
+
+        <!-- 通道 2: 京东到家(JDDJ)·上海实体商超 -->
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-between">
+          <div class="space-y-0.5">
+            <div class="font-bold text-slate-800 flex items-center space-x-1">
+              <span>🏬</span>
+              <span>京东到家(JDDJ)·上海线下商超</span>
+            </div>
+            <p class="text-[10px] text-slate-400">大润发、世纪联华、永辉等实体超市货架实价</p>
+          </div>
+          <div class="text-right shrink-0 ml-2">
+            <span class="inline-block text-[10px] bg-blue-100 text-blue-800 font-bold px-2 py-0.5 rounded-md">实体超市真价</span>
+            <span class="text-[9px] text-blue-600 block mt-0.5 font-medium">● 补齐部位</span>
+          </div>
+        </div>
+
+        <!-- 通道 3: 上海生鲜电商前置仓 -->
+        <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl flex items-center justify-between">
+          <div class="space-y-0.5">
+            <div class="font-bold text-slate-800 flex items-center space-x-1">
+              <span>🛵</span>
+              <span>上海生鲜前置仓(叮咚/盒马/山姆)</span>
+            </div>
+            <p class="text-[10px] text-slate-400">猪梅花肉、安格斯牛、日日鲜标杆极速达价</p>
+          </div>
+          <div class="text-right shrink-0 ml-2">
+            <span class="inline-block text-[10px] bg-amber-100 text-amber-800 font-bold px-2 py-0.5 rounded-md">极速达标杆</span>
+            <span class="text-[9px] text-amber-600 block mt-0.5 font-medium">● 细分现货</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 修复与操作区 -->
+      <div class="pt-1 space-y-2">
+        <button id="repair-action-btn" onclick="executeOneClickRepair()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md shadow-emerald-600/20 transition flex items-center justify-center space-x-2">
+          <span>🚀</span>
+          <span>立即执行「一键体检与刷新修复」</span>
+        </button>
+        <p class="text-[10px] text-center text-slate-400">
+          清除浏览器旧缓存并强制重新拉取最新数据。在无网菜场会自动激活离线高可用镜像。
+        </p>
+      </div>
+
+      <div class="pt-2 border-t border-slate-100 flex justify-end">
+        <button onclick="closeRepairModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-xs transition">
+          关闭
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // 本地存储键名
     const STORAGE_KEY_DATA = 'sh_grocery_market_data_v1';
@@ -547,13 +647,119 @@
       renderAll();
     }
 
+    function setNetworkStatus(status, text) {
+      const dot = document.getElementById('status-dot');
+      const txt = document.getElementById('status-text');
+      if (txt) txt.innerText = text;
+      if (dot) {
+        if (status === 'online') {
+          dot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse';
+        } else if (status === 'offline') {
+          dot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400';
+        } else if (status === 'warning') {
+          dot.className = 'w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping';
+        } else {
+          dot.className = 'w-1.5 h-1.5 rounded-full bg-rose-400';
+        }
+      }
+    }
+
+    // ==================== 数据源体检与一键修复管理 ====================
+    function openRepairModal() {
+      const modal = document.getElementById('repair-modal');
+      const dateBadge = document.getElementById('repair-date-badge');
+      const descEl = document.getElementById('repair-status-desc');
+      const btn = document.getElementById('repair-action-btn');
+
+      if (gRawMarketData) {
+        if (dateBadge) dateBadge.innerText = `采价: ${gRawMarketData.date || '最新'}`;
+        if (descEl) {
+          const drcCount = gRawMarketData.drc_count || 64;
+          const extraCount = gRawMarketData.extra_count || 10;
+          descEl.innerText = `已融合上海市发改委官方采样（${drcCount} 种）、京东到家实体商超及本地生鲜前置仓（${extraCount} 种），全量监测食材已扩充至 ${gRawMarketData.total_count} 种。`;
+        }
+      }
+      if (btn) {
+        btn.innerHTML = '<span>🚀</span><span>立即执行「一键体检与刷新修复」</span>';
+        btn.className = 'w-full py-3 bg-emerald-600 hover:bg-emerald-700 active:scale-98 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md shadow-emerald-600/20 transition flex items-center justify-center space-x-2';
+        btn.disabled = false;
+      }
+      modal.classList.remove('hidden');
+    }
+
+    function closeRepairModal() {
+      const modal = document.getElementById('repair-modal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    async function executeOneClickRepair() {
+      const btn = document.getElementById('repair-action-btn');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<span class="inline-block animate-spin mr-1">🔄</span><span>正在体检连接并清除旧缓存...</span>';
+      }
+
+      // 1. 清空本地可能损坏或过期的旧缓存
+      try {
+        localStorage.removeItem(STORAGE_KEY_DATA);
+      } catch (e) {}
+
+      // 2. 带时间戳强制重新向远程请求最新数据
+      let success = false;
+      try {
+        const resp = await fetch('./data.json?repair_t=' + Date.now());
+        if (resp.ok) {
+          const freshData = await resp.json();
+          if (freshData && freshData.all_products && freshData.all_products.length > 0) {
+            gRawMarketData = freshData;
+            localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(gRawMarketData));
+            mergeAndRefreshData();
+            setNetworkStatus('online', '在线已同步');
+            success = true;
+          }
+        }
+      } catch (e) {
+        console.error('Remote repair fetch failed', e);
+      }
+
+      if (success) {
+        if (btn) {
+          btn.innerHTML = '<span>✅</span><span>修复成功！全量数据已恢复最新</span>';
+          btn.className = 'w-full py-3 bg-emerald-600 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md shadow-emerald-600/20 transition flex items-center justify-center space-x-2';
+        }
+        showToast(`数据源修复成功！已同步最新 ${gRawMarketData.total_count} 种食材行情`, '🎉');
+        setTimeout(() => {
+          closeRepairModal();
+        }, 1200);
+      } else {
+        // 网络不通时尝试回退到离线可用
+        if (gRawMarketData) {
+          mergeAndRefreshData();
+          setNetworkStatus('offline', '离线可用');
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<span>⚠️</span><span>网络未连通，已切换至本地离线安全镜像</span>';
+            btn.className = 'w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl text-xs sm:text-sm shadow-md transition flex items-center justify-center space-x-2';
+          }
+          showToast('无法连接云端，已自动为您启用本地离线安全数据', '🛡️');
+        } else {
+          setNetworkStatus('error', '连接异常');
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = '<span>❌</span><span>修复失败，点击重试</span>';
+          }
+          showToast('修复失败，请检查网络连接后重试', '⚠️');
+        }
+      }
+    }
+
     async function fetchMarketData() {
       // 优先从 localStorage 载入离线缓存（应对菜场地下室无信号场景）
       const cached = localStorage.getItem(STORAGE_KEY_DATA);
       if (cached) {
         try {
           gRawMarketData = JSON.parse(cached);
-          document.getElementById('status-badge').innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>离线可用</span>';
+          setNetworkStatus('offline', '离线可用');
           mergeAndRefreshData();
         } catch (e) {}
       }
@@ -564,12 +770,13 @@
         if (resp.ok) {
           gRawMarketData = await resp.json();
           localStorage.setItem(STORAGE_KEY_DATA, JSON.stringify(gRawMarketData));
-          document.getElementById('status-badge').innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-300 animate-pulse"></span><span>在线已同步</span>';
+          setNetworkStatus('online', '在线已同步');
           mergeAndRefreshData();
         }
       } catch (err) {
         console.log('Using offline cached data', err);
         if (!gRawMarketData) {
+          setNetworkStatus('error', '无网络');
           showToast('无法连接网络且暂无离线缓存', '⚠️');
         }
       }
@@ -578,7 +785,7 @@
     function renderAll() {
       if (!gMarketData) return;
       const customCount = loadCustomProducts().length;
-      document.getElementById('sub-header').innerText = `采价日期: ${gMarketData.date} · 全量监测商品: ${gMarketData.all_products.length} 种${customCount > 0 ? ` (含自建 ${customCount} 种)` : ''}`;
+      document.getElementById('sub-header').innerText = `采价日期: ${gRawMarketData ? gRawMarketData.date : gMarketData.date} · 监测食材: ${gMarketData.all_products.length} 种 (含发改委/商超/生鲜)${customCount > 0 ? ` [自建+${customCount}]` : ''}`;
       document.getElementById('official-summary').innerText = gMarketData.summary || '暂无官方价格通报';
       document.getElementById('all-count-badge').innerText = `共 ${gMarketData.all_products.length} 种`;
 
