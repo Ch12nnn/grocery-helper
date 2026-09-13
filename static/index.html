@@ -152,9 +152,10 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                     <span>最低价</span>
                   </div>
-                  <div class="mt-1">
+                  <div class="mt-1 flex items-baseline justify-center">
                     <span class="text-xs text-emerald-700 font-bold">¥</span>
                     <span id="calc-min-price" class="text-lg lg:text-2xl font-black text-emerald-700">1.58</span>
+                    <span id="calc-min-unit" class="text-[10px] text-emerald-700/80 font-medium ml-0.5">元/斤</span>
                   </div>
                 </div>
                 <div class="mt-1.5 pt-1.5 border-t border-emerald-200/60">
@@ -167,10 +168,10 @@
                 <span class="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-emerald-600 text-white text-[9px] font-bold px-2 py-0.5 rounded-full shadow-2xs whitespace-nowrap">官方基准</span>
                 <div class="mt-0.5">
                   <span id="calc-benchmark-title" class="text-[11px] font-black text-slate-800">发改委价</span>
-                  <div class="mt-1">
+                  <div class="mt-1 flex items-baseline justify-center">
                     <span class="text-xs text-emerald-600 font-bold">¥</span>
                     <span id="calc-benchmark" class="text-xl lg:text-3xl font-black text-emerald-600">4.16</span>
-                    <span id="calc-unit" class="text-[10px] text-slate-500 font-medium">元/斤</span>
+                    <span id="calc-unit" class="text-[10px] text-slate-500 font-medium ml-0.5">元/斤</span>
                   </div>
                 </div>
                 <div class="mt-1.5 pt-1.5 border-t border-slate-100">
@@ -185,9 +186,10 @@
                     <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
                     <span>最高价</span>
                   </div>
-                  <div class="mt-1">
+                  <div class="mt-1 flex items-baseline justify-center">
                     <span class="text-xs text-amber-700 font-bold">¥</span>
                     <span id="calc-max-price" class="text-lg lg:text-2xl font-black text-amber-800">10.00</span>
+                    <span id="calc-max-unit" class="text-[10px] text-amber-800/80 font-medium ml-0.5">元/斤</span>
                   </div>
                 </div>
                 <div class="mt-1.5 pt-1.5 border-t border-amber-200/60">
@@ -273,22 +275,72 @@
               </div>
             </div>
 
-            <!-- 实时比对结果卡片 -->
-            <div id="result-card" class="hidden rounded-2xl p-4 lg:p-5 transition-all duration-300 space-y-2 border">
+            <!-- 实时比对结果卡片（三维对比：与最低价、与中间/发改委价、与最高价） -->
+            <div id="result-card" class="hidden rounded-2xl p-3.5 sm:p-4 lg:p-5 transition-all duration-300 space-y-2.5 border">
+              <!-- 顶部状态栏 -->
               <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2">
                   <span id="result-icon" class="text-3xl lg:text-4xl">✅</span>
                   <div>
-                    <span id="result-status" class="text-base font-black">价格公道</span>
-                    <span id="result-pct" class="text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded">0.0%</span>
+                    <div class="flex items-center space-x-1.5">
+                      <span id="result-status" class="text-base sm:text-lg font-black">价格公道</span>
+                      <span id="result-pct" class="text-xs font-extrabold px-1.5 py-0.5 rounded">0.0%</span>
+                    </div>
+                    <span id="result-sub-status" class="text-[10px] sm:text-[11px] text-slate-500 font-medium block">处于市场正常合理交易区间</span>
                   </div>
                 </div>
                 <div class="text-right">
-                  <span class="text-[10px] lg:text-xs text-slate-400 block">与菜场均价相比</span>
-                  <span id="result-diff" class="text-base lg:text-lg font-bold text-slate-800">0.00 元/斤</span>
+                  <span class="text-[10px] text-slate-400 block font-medium">折合单价</span>
+                  <div class="font-black text-slate-900">
+                    <span class="text-xs text-slate-500 font-bold">¥</span><span id="result-user-price" class="text-base sm:text-lg font-black text-slate-800">0.00</span><span id="result-user-unit" class="text-[10px] text-slate-500 font-medium">/斤</span>
+                  </div>
+                  <span id="result-diff" class="text-[10px] text-slate-500 font-medium block">比菜场均价 0.00 元/斤</span>
                 </div>
               </div>
-              <!-- 购买建议说明 -->
+
+              <!-- 三维比价网格：最低、中间（发改委）、最高 三个维度立体对比 -->
+              <div class="grid grid-cols-3 gap-1.5 sm:gap-2 pt-1">
+                <!-- 维度1：与最低价相比 -->
+                <div class="bg-white/80 backdrop-blur-xs rounded-xl p-2 sm:p-2.5 text-center border border-black/5 shadow-2xs flex flex-col justify-between">
+                  <div class="text-[10px] sm:text-[11px] font-bold text-slate-600 flex items-center justify-center space-x-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"></span>
+                    <span class="truncate">比最低价</span>
+                  </div>
+                  <div class="my-1">
+                    <div id="cmp-min-diff" class="text-xs sm:text-sm font-black leading-tight text-slate-800">-</div>
+                    <div id="cmp-min-pct" class="text-[10px] font-extrabold mt-0.5 text-slate-500">-</div>
+                  </div>
+                  <div class="text-[9px] text-slate-400 font-medium truncate pt-1 border-t border-slate-100/80" id="cmp-min-base" title="采样底线">底线: ¥-</div>
+                </div>
+
+                <!-- 维度2：与中间/发改委价相比 -->
+                <div class="bg-white/80 backdrop-blur-xs rounded-xl p-2 sm:p-2.5 text-center border border-black/5 shadow-2xs flex flex-col justify-between">
+                  <div class="text-[10px] sm:text-[11px] font-bold text-slate-600 flex items-center justify-center space-x-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0"></span>
+                    <span id="cmp-mid-label" class="truncate">比发改委价</span>
+                  </div>
+                  <div class="my-1">
+                    <div id="cmp-mid-diff" class="text-xs sm:text-sm font-black leading-tight text-slate-800">-</div>
+                    <div id="cmp-mid-pct" class="text-[10px] font-extrabold mt-0.5 text-slate-500">-</div>
+                  </div>
+                  <div class="text-[9px] text-slate-400 font-medium truncate pt-1 border-t border-slate-100/80" id="cmp-mid-base" title="官方基准">基准: ¥-</div>
+                </div>
+
+                <!-- 维度3：与最高价相比 -->
+                <div class="bg-white/80 backdrop-blur-xs rounded-xl p-2 sm:p-2.5 text-center border border-black/5 shadow-2xs flex flex-col justify-between">
+                  <div class="text-[10px] sm:text-[11px] font-bold text-slate-600 flex items-center justify-center space-x-1">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0"></span>
+                    <span class="truncate">比最高价</span>
+                  </div>
+                  <div class="my-1">
+                    <div id="cmp-max-diff" class="text-xs sm:text-sm font-black leading-tight text-slate-800">-</div>
+                    <div id="cmp-max-pct" class="text-[10px] font-extrabold mt-0.5 text-slate-500">-</div>
+                  </div>
+                  <div class="text-[9px] text-slate-400 font-medium truncate pt-1 border-t border-slate-100/80" id="cmp-max-base" title="采样高限">高限: ¥-</div>
+                </div>
+              </div>
+
+              <!-- 综合购买建议说明 -->
               <p id="result-advice" class="text-xs lg:text-sm leading-relaxed pt-2 border-t border-black/5 text-slate-700 font-medium"></p>
             </div>
 
@@ -1232,8 +1284,13 @@
         maxSourceEl.title = src;
       }
 
+      const unitStr = (prod.unit || '元/500克').replace('元/500克', '元/斤');
       const unitEl = document.getElementById('calc-unit');
-      if (unitEl) unitEl.innerText = (prod.unit || '元/500克').replace('元/500克', '元/斤');
+      if (unitEl) unitEl.innerText = unitStr;
+      const minUnitEl = document.getElementById('calc-min-unit');
+      if (minUnitEl) minUnitEl.innerText = unitStr;
+      const maxUnitEl = document.getElementById('calc-max-unit');
+      if (maxUnitEl) maxUnitEl.innerText = unitStr;
 
       onPriceBarChanged();
     }
@@ -1400,85 +1457,200 @@
       onPriceBarChanged();
     }
 
-    // 纯客户端即时比价算法（支持菜场均价与商超上限双重锚点）
+    // 纯客户端即时三维立体比价算法（对比最低价、中间发改委均价、最高价三维坐标）
     function evaluatePriceBenchmark(userPrice) {
       const resCard = document.getElementById('result-card');
       if (!resCard || !gCurrentProduct || userPrice <= 0) return;
 
-      // 基准线：菜市场均价（普通摊位参考）
-      const benchmark = gCurrentProduct.market_avg && gCurrentProduct.market_avg > 0 
+      const unitRaw = gCurrentProduct.unit || '元/500克';
+      const unitLabel = unitRaw.replace('元/500克', '元/斤');
+      const unitSuffix = unitLabel.startsWith('元/') ? unitLabel.replace('元/', '/') : ('/' + unitLabel);
+
+      // 1. 三维锚点：最低价、中间基准价（发改委/菜场均价）、最高价
+      const midP = (gCurrentProduct.market_avg && gCurrentProduct.market_avg > 0)
         ? gCurrentProduct.market_avg 
-        : gCurrentProduct.city_avg;
+        : (gCurrentProduct.city_avg || userPrice);
+      const minP = (gCurrentProduct.min_price && gCurrentProduct.min_price > 0)
+        ? gCurrentProduct.min_price
+        : midP;
+      const maxP = (gCurrentProduct.max_price && gCurrentProduct.max_price > 0)
+        ? gCurrentProduct.max_price
+        : midP;
 
-      const diff = userPrice - benchmark;
-      const diffPct = benchmark > 0 ? (diff / benchmark * 100.0) : 0;
+      // 2. 维度 1 计算：与最低价相比
+      const diffMin = userPrice - minP;
+      const diffMinPct = minP > 0 ? (diffMin / minP * 100.0) : 0;
+      let minDiffText = '', minPctText = '', minDiffClass = '';
+      if (Math.abs(diffMin) < 0.01) {
+        minDiffText = '持平最低';
+        minPctText = '地板价';
+        minDiffClass = 'text-emerald-600 font-bold';
+      } else if (diffMin < 0) {
+        minDiffText = `-¥${Math.abs(diffMin).toFixed(2)}`;
+        minPctText = `${diffMinPct.toFixed(1)}% (破底)`;
+        minDiffClass = 'text-emerald-700 font-black';
+      } else {
+        minDiffText = `+¥${diffMin.toFixed(2)}`;
+        minPctText = `高出 +${diffMinPct.toFixed(1)}%`;
+        minDiffClass = diffMinPct > 30 ? 'text-amber-700 font-bold' : 'text-slate-800 font-bold';
+      }
 
-      let status, statusText, icon, advice, cardClass, pctClass;
+      // 3. 维度 2 计算：与发改委价/中间均价相比
+      const diffMid = userPrice - midP;
+      const diffMidPct = midP > 0 ? (diffMid / midP * 100.0) : 0;
+      let midDiffText = '', midPctText = '', midDiffClass = '';
+      if (Math.abs(diffMid) < 0.01) {
+        midDiffText = '持平基准';
+        midPctText = '0.0%';
+        midDiffClass = 'text-blue-600 font-bold';
+      } else if (diffMid < 0) {
+        midDiffText = `便宜 -¥${Math.abs(diffMid).toFixed(2)}`;
+        midPctText = `${diffMidPct.toFixed(1)}%`;
+        midDiffClass = 'text-emerald-600 font-black';
+      } else {
+        midDiffText = `偏贵 +¥${diffMid.toFixed(2)}`;
+        midPctText = `+${diffMidPct.toFixed(1)}%`;
+        midDiffClass = diffMidPct > 20 ? 'text-rose-600 font-black' : 'text-amber-600 font-bold';
+      }
 
-      if (diffPct <= -15.0) {
+      // 4. 维度 3 计算：与最高价相比
+      const diffMax = userPrice - maxP;
+      const diffMaxPct = maxP > 0 ? (diffMax / maxP * 100.0) : 0;
+      let maxDiffText = '', maxPctText = '', maxDiffClass = '';
+      if (Math.abs(diffMax) < 0.01) {
+        maxDiffText = '触及高限';
+        maxPctText = '顶峰价';
+        maxDiffClass = 'text-amber-700 font-bold';
+      } else if (diffMax < 0) {
+        maxDiffText = `低 -¥${Math.abs(diffMax).toFixed(2)}`;
+        maxPctText = `${diffMaxPct.toFixed(1)}%`;
+        maxDiffClass = 'text-emerald-600 font-bold';
+      } else {
+        maxDiffText = `超高 +¥${diffMax.toFixed(2)}`;
+        maxPctText = `+${diffMaxPct.toFixed(1)}% (破顶)`;
+        maxDiffClass = 'text-rose-700 font-black';
+      }
+
+      // 5. 整体评级分类（根据偏离基准幅度）
+      let status, statusText, subStatusText, icon, cardClass, pctClass;
+      if (diffMidPct <= -15.0) {
         status = 'CHEAP';
         statusText = '超值实惠';
+        subStatusText = '价格显著低于公道均价，性价比优异';
         icon = '🔥';
-        advice = `比菜市场均价便宜了 ${Math.abs(diffPct).toFixed(1)}%！价格非常实惠，新鲜度若良好建议直接入手。`;
-        cardClass = 'rounded-xl p-4 transition-all duration-300 space-y-2 border bg-emerald-50 border-emerald-300 text-emerald-900';
-        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-emerald-200 text-emerald-800';
-      } else if (diffPct <= 10.0) {
+        cardClass = 'rounded-2xl p-3.5 sm:p-4 lg:p-5 transition-all duration-300 space-y-2.5 border bg-emerald-50 border-emerald-300 text-emerald-950 shadow-xs';
+        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-emerald-200 text-emerald-900';
+      } else if (diffMidPct <= 10.0) {
         status = 'FAIR';
         statusText = '价格公道';
+        subStatusText = '处于市场合理交易区间，正常行情';
         icon = '✅';
-        advice = `与菜市场均价相差不大（偏差 ${diffPct >= 0 ? '+' : ''}${diffPct.toFixed(1)}%），处于正常合理的菜场交易区间。`;
-        cardClass = 'rounded-xl p-4 transition-all duration-300 space-y-2 border bg-blue-50 border-blue-300 text-blue-900';
-        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-blue-200 text-blue-800';
-      } else if (diffPct <= 30.0) {
+        cardClass = 'rounded-2xl p-3.5 sm:p-4 lg:p-5 transition-all duration-300 space-y-2.5 border bg-blue-50 border-blue-300 text-blue-950 shadow-xs';
+        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-blue-200 text-blue-900';
+      } else if (diffMidPct <= 30.0) {
         status = 'EXPENSIVE';
         statusText = '略微偏贵';
+        subStatusText = '高于公道均线，建议挑好成色或还价';
         icon = '⚠️';
-        advice = `比菜场均价高出 ${diffPct.toFixed(1)}%（贵了约 ${diff.toFixed(2)} 元/斤）。建议挑拣成色好的，或尝试与摊主抹零还价。`;
-        cardClass = 'rounded-xl p-4 transition-all duration-300 space-y-2 border bg-amber-50 border-amber-300 text-amber-900';
-        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-amber-200 text-amber-800';
+        cardClass = 'rounded-2xl p-3.5 sm:p-4 lg:p-5 transition-all duration-300 space-y-2.5 border bg-amber-50 border-amber-300 text-amber-950 shadow-xs';
+        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-amber-200 text-amber-900';
       } else {
         status = 'OVERPRICED';
         statusText = '明显偏贵';
+        subStatusText = '大幅溢价，建议货比三家或换摊';
         icon = '🛑';
-        advice = `比菜场均价高出了整整 ${diffPct.toFixed(1)}%（高出约 ${diff.toFixed(2)} 元/斤）！要价偏高，建议换摊位或还价。`;
-        cardClass = 'rounded-xl p-4 transition-all duration-300 space-y-2 border bg-rose-50 border-rose-300 text-rose-900';
-        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-rose-200 text-rose-800';
+        cardClass = 'rounded-2xl p-3.5 sm:p-4 lg:p-5 transition-all duration-300 space-y-2.5 border bg-rose-50 border-rose-300 text-rose-950 shadow-xs';
+        pctClass = 'text-xs ml-1 font-extrabold px-1.5 py-0.5 rounded bg-rose-200 text-rose-900';
       }
 
-      // 叠加最低/最高价采样比对
-      if (gCurrentProduct.min_price && gCurrentProduct.min_price > 0 && userPrice <= gCurrentProduct.min_price * 1.05) {
-        const srcLabel = gCurrentProduct.min_source ? `（${gCurrentProduct.min_source}：¥${gCurrentProduct.min_price.toFixed(2)}/斤）` : '';
-        advice += `<br><span class="text-emerald-700 font-semibold">🏆 全市低位：</span>当前价格已逼近全市采样最低价${srcLabel}，可以说是地板价了！`;
-      } else if (gCurrentProduct.max_price && gCurrentProduct.max_price > 0 && userPrice >= gCurrentProduct.max_price * 0.98) {
-        const srcLabel = gCurrentProduct.max_source ? `（${gCurrentProduct.max_source}：¥${gCurrentProduct.max_price.toFixed(2)}/斤）` : '';
-        advice += `<br><span class="text-rose-700 font-semibold">🚩 触顶警戒：</span>当前价格已逼近全市采样最高价${srcLabel}，要价非常昂贵！`;
+      // 6. 拟制三维结合的综合避坑与还价话术
+      let advice = '';
+      if (diffMin <= 0) {
+        const minSrc = gCurrentProduct.min_source ? `（${gCurrentProduct.min_source}）` : '';
+        advice = `<span class="text-emerald-700 font-bold">🏆 地板价触达：</span>当前价格已击穿或持平全市最低采样价${minSrc}！属于难得的超值好价，若食材新鲜度良好，推荐直接入手。`;
+      } else if (status === 'CHEAP') {
+        advice = `当前比发改委均价便宜了 <b>${Math.abs(diffMidPct).toFixed(1)}%</b>（省了 ¥${Math.abs(diffMid).toFixed(2)}${unitSuffix}），虽高出最低价 ¥${diffMin.toFixed(2)}，但整体非常划算，放心买。`;
+      } else if (status === 'FAIR') {
+        advice = `与发改委菜场均价基本持平（偏差 <b>${diffMidPct >= 0 ? '+' : ''}${diffMidPct.toFixed(1)}%</b>），比最高限价低了 ¥${Math.abs(diffMax).toFixed(2)}，处于正常买菜行情，买得多可试着抹个零头。`;
+      } else if (status === 'EXPENSIVE') {
+        advice = `比发改委均价高了 <b>${diffMidPct.toFixed(1)}%</b>（贵了约 ¥${diffMid.toFixed(2)}${unitSuffix}）。虽然还未达到天花板最高价，但要价偏高，建议挑拣成色极佳的，或尝试还价至 ¥${midP.toFixed(1)} 左右。`;
+      } else {
+        const maxSrc = gCurrentProduct.max_source ? `（最高采样自 ${gCurrentProduct.max_source}）` : '';
+        if (diffMax >= 0) {
+          advice = `<span class="text-rose-700 font-bold">🚩 顶峰高价警告：</span>当前要价已逼近或超越全市采样最高天花板${maxSrc}！属于高溢价摊位，极不推荐原价购买，建议货比三家！`;
+        } else {
+          advice = `比发改委均价高出整整 <b>${diffMidPct.toFixed(1)}%</b>（贵了 ¥${diffMid.toFixed(2)}${unitSuffix}），要价明显偏贵，建议换个摊位看看。`;
+        }
       }
 
-      // 叠加商超上限对比提示
+      // 叠加商超比对
       const smAvg = gCurrentProduct.supermarket_avg;
       if (!gCurrentProduct.is_custom && smAvg && smAvg > 0) {
         if (userPrice > smAvg * 1.1) {
           const smDiffPct = ((userPrice - smAvg) / smAvg * 100.0).toFixed(0);
-          advice += `<br><span class="text-blue-700 font-semibold">🏬 商超比对：</span>当前要价比大润发/世纪联华等商超均价（¥${smAvg.toFixed(2)}/斤）还贵了 <span class="underline font-bold">+${smDiffPct}%</span>，去超市买可能更划算！`;
+          advice += `<br><span class="text-blue-700 font-semibold">🏬 商超比对：</span>相比大润发/世纪联华等商超均价（¥${smAvg.toFixed(2)}${unitSuffix}）贵了 <span class="underline font-bold">+${smDiffPct}%</span>，去附近超市买可能更合算！`;
         } else if (userPrice <= smAvg * 0.9) {
           const smDiffPct = ((smAvg - userPrice) / smAvg * 100.0).toFixed(0);
-          advice += `<br><span class="text-emerald-700 font-semibold">🏬 商超比对：</span>相比大润发/世纪联华等大型商超均价（¥${smAvg.toFixed(2)}/斤），当前价格便宜了 <span class="underline font-bold">${smDiffPct}%</span>，性价比出众！`;
+          advice += `<br><span class="text-emerald-700 font-semibold">🏬 商超比对：</span>相比大型商超均价（¥${smAvg.toFixed(2)}${unitSuffix}）便宜了 <span class="underline font-bold">${smDiffPct}%</span>，菜场此价格很有竞争力！`;
         }
       }
 
+      // 7. 更新 DOM
       resCard.className = cardClass;
       resCard.classList.remove('hidden');
 
       document.getElementById('result-icon').innerText = icon;
       document.getElementById('result-status').innerText = statusText;
-      document.getElementById('result-advice').innerHTML = advice;
+      const subStatusEl = document.getElementById('result-sub-status');
+      if (subStatusEl) subStatusEl.innerText = subStatusText;
 
-      const sign = diff >= 0 ? '+' : '';
-      const signWord = diff >= 0 ? '贵了' : '便宜了';
       const pctEl = document.getElementById('result-pct');
       pctEl.className = pctClass;
-      pctEl.innerText = `${sign}${diffPct.toFixed(1)}%`;
-      document.getElementById('result-diff').innerText = `比菜场均价 ${signWord} ${Math.abs(diff).toFixed(2)} 元/斤`;
+      const sign = diffMid >= 0 ? '+' : '';
+      pctEl.innerText = `${sign}${diffMidPct.toFixed(1)}%`;
+
+      const userPriceEl = document.getElementById('result-user-price');
+      if (userPriceEl) userPriceEl.innerText = userPrice.toFixed(2);
+      const userUnitEl = document.getElementById('result-user-unit');
+      if (userUnitEl) userUnitEl.innerText = unitSuffix;
+
+      const signWord = diffMid >= 0 ? '贵了' : '便宜了';
+      document.getElementById('result-diff').innerText = `比菜场均价 ${signWord} ${Math.abs(diffMid).toFixed(2)} ${unitLabel}`;
+
+      // 填充三维网格
+      const minDiffEl = document.getElementById('cmp-min-diff');
+      const minPctEl = document.getElementById('cmp-min-pct');
+      const minBaseEl = document.getElementById('cmp-min-base');
+      if (minDiffEl) { minDiffEl.innerText = minDiffText; minDiffEl.className = `text-xs sm:text-sm leading-tight ${minDiffClass}`; }
+      if (minPctEl) minPctEl.innerText = minPctText;
+      if (minBaseEl) {
+        minBaseEl.innerText = `底线: ¥${minP.toFixed(2)}`;
+        minBaseEl.title = gCurrentProduct.min_source ? `最低价采样源: ${gCurrentProduct.min_source}` : '最低价采样源';
+      }
+
+      const midLabelEl = document.getElementById('cmp-mid-label');
+      if (midLabelEl) midLabelEl.innerText = gCurrentProduct.is_custom ? '比自定基准' : '比发改委价';
+      const midDiffEl = document.getElementById('cmp-mid-diff');
+      const midPctEl = document.getElementById('cmp-mid-pct');
+      const midBaseEl = document.getElementById('cmp-mid-base');
+      if (midDiffEl) { midDiffEl.innerText = midDiffText; midDiffEl.className = `text-xs sm:text-sm leading-tight ${midDiffClass}`; }
+      if (midPctEl) midPctEl.innerText = midPctText;
+      if (midBaseEl) {
+        midBaseEl.innerText = `基准: ¥${midP.toFixed(2)}`;
+        midBaseEl.title = gCurrentProduct.is_custom ? '自定义公道线' : '发改委全市零售均价';
+      }
+
+      const maxDiffEl = document.getElementById('cmp-max-diff');
+      const maxPctEl = document.getElementById('cmp-max-pct');
+      const maxBaseEl = document.getElementById('cmp-max-base');
+      if (maxDiffEl) { maxDiffEl.innerText = maxDiffText; maxDiffEl.className = `text-xs sm:text-sm leading-tight ${maxDiffClass}`; }
+      if (maxPctEl) maxPctEl.innerText = maxPctText;
+      if (maxBaseEl) {
+        maxBaseEl.innerText = `高限: ¥${maxP.toFixed(2)}`;
+        maxBaseEl.title = gCurrentProduct.max_source ? `最高价采样源: ${gCurrentProduct.max_source}` : '最高价采样源';
+      }
+
+      document.getElementById('result-advice').innerHTML = advice;
     }
 
     function adjustPrice(delta) {
