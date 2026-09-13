@@ -169,6 +169,54 @@ RETAIL_EXTRA_PRODUCTS = [
         "max_source": "叮咚买菜·净鲜金针菇(浦东仓)",
         "district_avg": 4.60,
         "source_channel": "JDDJ与叮咚"
+    },
+    {
+        "category": "肉禽蛋",
+        "name": "鸡胸肉",
+        "spec": "冰鲜去皮大胸",
+        "display_name": "冰鲜鸡胸肉(去皮大胸)",
+        "unit": "元/500克",
+        "city_avg": 10.50,
+        "market_avg": 10.80,
+        "supermarket_avg": 12.80,
+        "min_price": 7.90,
+        "min_source": "京东到家·永辉超市(散装特惠)",
+        "max_price": 15.80,
+        "max_source": "盒马鲜生·泰森冷鲜鸡大胸(精装)",
+        "district_avg": 10.80,
+        "source_channel": "JDDJ与盒马"
+    },
+    {
+        "category": "乳品烘焙",
+        "name": "鲜牛奶",
+        "spec": "冷藏鲜奶(950ml折合)",
+        "display_name": "冷藏鲜牛奶(纯鲜奶)",
+        "unit": "元/500克",
+        "city_avg": 7.80,
+        "market_avg": 8.00,
+        "supermarket_avg": 8.90,
+        "min_price": 5.20,
+        "min_source": "京东到家·世纪联华·光明特惠鲜奶(折合)",
+        "max_price": 11.50,
+        "max_source": "盒马鲜生·日日鲜优质鲜奶(折合)",
+        "district_avg": 8.00,
+        "source_channel": "JDDJ与盒马"
+    },
+    {
+        "category": "乳品烘焙",
+        "name": "切片吐司面包",
+        "spec": "全麦/原味切片400g折合",
+        "display_name": "切片吐司面包(吐司)",
+        "unit": "元/500克",
+        "city_avg": 10.80,
+        "market_avg": 11.00,
+        "supermarket_avg": 12.50,
+        "min_price": 7.50,
+        "min_source": "京东到家·大润发·平价切片吐司(折合)",
+        "max_price": 16.80,
+        "max_source": "叮咚买菜·良芯烘焙全麦吐司(折合)",
+        "district_avg": 11.00,
+        "source_channel": "JDDJ与叮咚"
     }
 ]
 

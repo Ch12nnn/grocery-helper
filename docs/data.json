@@ -1,7 +1,7 @@
 {
   "title": "上海市主要主副食品品种价格信息表(2026年09月11日)",
   "date": "2026年09月11日",
-  "last_repaired_at": "2026-09-13 22:35:31",
+  "last_repaired_at": "2026-09-13 23:00:17",
   "summary": "据监测，2026年09月11日本市主要蔬菜品种平均零售价环比上一工作日11涨18跌5平。其中，青菜和鸡毛菜平均零售价3.81元/500克和4.33元/500克，环比分别上涨1.1%和下跌-2.5%。\n今日，主要肉禽蛋品种平均零售价环比上一工作日3涨3跌3平。其中，猪精瘦肉价格17.54元/500克，鸡蛋价格6.10元/500克，环比分别持平和上涨0.3%。",
   "sources": {
     "drc": {
@@ -19,7 +19,7 @@
       "desc": "大润发、世纪联华、永辉等上海各大实体超市在架零售价",
       "status": "healthy",
       "type": "实体商超",
-      "count": 10,
+      "count": 13,
       "updated": "2026-09-13"
     },
     "fresh_ecommerce": {
@@ -28,13 +28,13 @@
       "desc": "上海本地即时配送高频生鲜标杆行情(折合元/斤)",
       "status": "healthy",
       "type": "电商极速达",
-      "count": 10,
+      "count": 13,
       "updated": "2026-09-13"
     }
   },
-  "total_count": 74,
+  "total_count": 77,
   "drc_count": 64,
-  "extra_count": 10,
+  "extra_count": 13,
   "categories": {
     "粮食": [
       {
@@ -422,6 +422,22 @@
         "max_source": "山姆极速达·澳洲谷饲眼肉(折合)",
         "district_avg": 60.0,
         "source_channel": "JDDJ与山姆"
+      },
+      {
+        "category": "肉禽蛋",
+        "name": "鸡胸肉",
+        "spec": "冰鲜去皮大胸",
+        "display_name": "冰鲜鸡胸肉(去皮大胸)",
+        "unit": "元/500克",
+        "city_avg": 10.5,
+        "market_avg": 10.8,
+        "supermarket_avg": 12.8,
+        "min_price": 7.9,
+        "min_source": "京东到家·永辉超市(散装特惠)",
+        "max_price": 15.8,
+        "max_source": "盒马鲜生·泰森冷鲜鸡大胸(精装)",
+        "district_avg": 10.8,
+        "source_channel": "JDDJ与盒马"
       }
     ],
     "鱼虾": [
@@ -1166,6 +1182,40 @@
         "max_price": 14.32,
         "max_source": "闵行区·麦德龙闵行店",
         "district_avg": 0.0
+      }
+    ],
+    "乳品烘焙": [
+      {
+        "category": "乳品烘焙",
+        "name": "鲜牛奶",
+        "spec": "冷藏鲜奶(950ml折合)",
+        "display_name": "冷藏鲜牛奶(纯鲜奶)",
+        "unit": "元/500克",
+        "city_avg": 7.8,
+        "market_avg": 8.0,
+        "supermarket_avg": 8.9,
+        "min_price": 5.2,
+        "min_source": "京东到家·世纪联华·光明特惠鲜奶(折合)",
+        "max_price": 11.5,
+        "max_source": "盒马鲜生·日日鲜优质鲜奶(折合)",
+        "district_avg": 8.0,
+        "source_channel": "JDDJ与盒马"
+      },
+      {
+        "category": "乳品烘焙",
+        "name": "切片吐司面包",
+        "spec": "全麦/原味切片400g折合",
+        "display_name": "切片吐司面包(吐司)",
+        "unit": "元/500克",
+        "city_avg": 10.8,
+        "market_avg": 11.0,
+        "supermarket_avg": 12.5,
+        "min_price": 7.5,
+        "min_source": "京东到家·大润发·平价切片吐司(折合)",
+        "max_price": 16.8,
+        "max_source": "叮咚买菜·良芯烘焙全麦吐司(折合)",
+        "district_avg": 11.0,
+        "source_channel": "JDDJ与叮咚"
       }
     ]
   },
@@ -2288,6 +2338,54 @@
       "max_price": 6.8,
       "max_source": "叮咚买菜·净鲜金针菇(浦东仓)",
       "district_avg": 4.6,
+      "source_channel": "JDDJ与叮咚"
+    },
+    {
+      "category": "肉禽蛋",
+      "name": "鸡胸肉",
+      "spec": "冰鲜去皮大胸",
+      "display_name": "冰鲜鸡胸肉(去皮大胸)",
+      "unit": "元/500克",
+      "city_avg": 10.5,
+      "market_avg": 10.8,
+      "supermarket_avg": 12.8,
+      "min_price": 7.9,
+      "min_source": "京东到家·永辉超市(散装特惠)",
+      "max_price": 15.8,
+      "max_source": "盒马鲜生·泰森冷鲜鸡大胸(精装)",
+      "district_avg": 10.8,
+      "source_channel": "JDDJ与盒马"
+    },
+    {
+      "category": "乳品烘焙",
+      "name": "鲜牛奶",
+      "spec": "冷藏鲜奶(950ml折合)",
+      "display_name": "冷藏鲜牛奶(纯鲜奶)",
+      "unit": "元/500克",
+      "city_avg": 7.8,
+      "market_avg": 8.0,
+      "supermarket_avg": 8.9,
+      "min_price": 5.2,
+      "min_source": "京东到家·世纪联华·光明特惠鲜奶(折合)",
+      "max_price": 11.5,
+      "max_source": "盒马鲜生·日日鲜优质鲜奶(折合)",
+      "district_avg": 8.0,
+      "source_channel": "JDDJ与盒马"
+    },
+    {
+      "category": "乳品烘焙",
+      "name": "切片吐司面包",
+      "spec": "全麦/原味切片400g折合",
+      "display_name": "切片吐司面包(吐司)",
+      "unit": "元/500克",
+      "city_avg": 10.8,
+      "market_avg": 11.0,
+      "supermarket_avg": 12.5,
+      "min_price": 7.5,
+      "min_source": "京东到家·大润发·平价切片吐司(折合)",
+      "max_price": 16.8,
+      "max_source": "叮咚买菜·良芯烘焙全麦吐司(折合)",
+      "district_avg": 11.0,
       "source_channel": "JDDJ与叮咚"
     }
   ]

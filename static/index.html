@@ -103,6 +103,7 @@
               <button onclick="filterCategory('自建')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="自建">✨ 我的自建</button>
               <button onclick="filterCategory('蔬菜')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="蔬菜">🥬 蔬菜</button>
               <button onclick="filterCategory('肉禽蛋')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="肉禽蛋">🥩 肉蛋</button>
+              <button onclick="filterCategory('乳品烘焙')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="乳品烘焙">🥛 烘焙乳品</button>
               <button onclick="filterCategory('鱼虾')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="鱼虾">🐟 水产</button>
               <button onclick="filterCategory('水果')" class="cat-pill bg-slate-100 text-slate-600 px-3 py-1 rounded-full hover:bg-slate-200" data-cat="水果">🍎 水果</button>
             </div>
@@ -468,6 +469,7 @@
             <select id="cust-category-select" onchange="onCustomCategoryChange()" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs focus:outline-none focus:border-emerald-500 font-medium">
               <option value="蔬菜">🥬 蔬菜</option>
               <option value="肉禽蛋" selected>🥩 肉禽蛋</option>
+              <option value="乳品烘焙">🥛 烘焙乳品</option>
               <option value="鱼虾">🐟 水产鱼虾</option>
               <option value="水果">🍎 水果</option>
               <option value="粮油">🍚 粮油副食</option>
@@ -882,7 +884,7 @@
         maxSourceInput.value = prod.max_source || '';
         deleteBtn.classList.remove('hidden');
 
-        const knownCats = ['蔬菜', '肉禽蛋', '鱼虾', '水果', '粮油'];
+        const knownCats = ['蔬菜', '肉禽蛋', '乳品烘焙', '鱼虾', '水果', '粮油'];
         if (knownCats.includes(prod.category)) {
           catSelect.value = prod.category;
           newCatBox.classList.add('hidden');
@@ -1135,7 +1137,23 @@
       '羊排': ['鲜羊肉'],
       '羊肉卷': ['鲜羊肉'],
       '生姜': ['生姜', '老姜', '嫩姜'],
-      '大蒜': ['蒜头']
+      '大蒜': ['蒜头'],
+      '鸡胸': ['鸡胸肉'],
+      '鸡大胸': ['鸡胸肉'],
+      '鸡小胸': ['鸡胸肉'],
+      '鸡胸肉': ['鸡胸肉'],
+      '鲜奶': ['鲜牛奶'],
+      '纯牛奶': ['鲜牛奶'],
+      '纯奶': ['鲜牛奶'],
+      '牛奶': ['鲜牛奶'],
+      '巴氏奶': ['鲜牛奶'],
+      '光明鲜奶': ['鲜牛奶'],
+      '吐司': ['切片吐司面包'],
+      '吐司面包': ['切片吐司面包'],
+      '全麦面包': ['切片吐司面包'],
+      '全麦吐司': ['切片吐司面包'],
+      '切片面包': ['切片吐司面包'],
+      '面包': ['切片吐司面包']
     };
 
     // 获取便于老百姓辨识的简短通俗名称（区分四种鲜猪肉、牛肉各部位等）
@@ -1155,6 +1173,9 @@
         if (p.spec && p.spec.includes('袋装')) return '粳米(袋装)';
         return '粳米(散装)';
       }
+      if (p.name === '鸡胸肉') return '冰鲜鸡胸肉';
+      if (p.name === '鲜牛奶') return '冷藏鲜牛奶';
+      if (p.name === '切片吐司面包') return '切片吐司面包';
       return p.name;
     }
 
@@ -1186,7 +1207,7 @@
       }
 
       // 3. 分类词检索
-      if (['蔬菜', '肉禽蛋', '水产', '鱼虾', '水果', '粮油'].includes(k) && pCat.includes(k.replace('水产', '鱼虾'))) {
+      if (['蔬菜', '肉禽蛋', '水产', '鱼虾', '水果', '粮油', '乳品', '烘焙', '乳品烘焙'].includes(k) && (pCat.includes(k.replace('水产', '鱼虾')) || pCat.includes('乳品') || pCat.includes('烘焙'))) {
         return true;
       }
 
